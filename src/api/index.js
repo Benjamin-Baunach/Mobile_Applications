@@ -1,3 +1,4 @@
+//API fetches
 export default {
     baseURL: 'https://www2.hs-esslingen.de/~melcher/map/chat/api/',
 
