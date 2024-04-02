@@ -2,7 +2,9 @@ import './style.css'
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
+
 import App from './App.vue'
+//import './registerServiceWorker'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -11,6 +13,21 @@ const router = createRouter({
         { path: '/about', component: () => import('./App.vue') }
     ]
 });
+
+
+
+//Service Worker implementation
+// if ('serviceWorker' in navigator) {
+//     window.addEventListener('load', () => {
+//       navigator.serviceWorker.register('/service-worker.js', {scope: "./"})
+//         .then(registration => {
+//           console.log('Service Worker registered:', registration);
+//         })
+//         .catch(error => {
+//           console.error('Service Worker registration failed:', error);
+//         });
+//     });
+//   }
 
 if (navigator.serviceWorker) {
     navigator.serviceWorker.register('./src/sw.js') .then(registration => {
@@ -22,15 +39,16 @@ if (navigator.serviceWorker) {
 if (window.Notification) {
     const showNotification = text => {
         const options = { body: 'You should know', icon: 'icon.png'};
-    const notification = new Notification('A new notification!', options);
-    notification.addEventListener('click', () => alert('Notification clicked')
-    ); };
-    if (Notification.permission === 'granted') showNotification('was granted');
-    else if (Notification.permission !== 'denied') { Notification.requestPermission(permission => {
-    if (permission === 'granted') showNotification('newly granted');
-    }); }
-}
+        const notification = new Notification('A new notification!', options);
+        notification.addEventListener('click', () => alert('Notification clicked')
+        ); };
+        if (Notification.permission === 'granted') showNotification('was granted');
+        else if (Notification.permission !== 'denied') { Notification.requestPermission(permission => {
+            if (permission === 'granted') showNotification('newly granted');
+        }); }
+    }
 
 createApp(App)
-    .use(router)
+.use(router)
     .mount('#app')
+    
