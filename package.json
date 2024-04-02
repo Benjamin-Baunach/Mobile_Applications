@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "register-service-worker": "^1.7.2",
+    "lucide-vue-next": "^0.364.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "web-push": "^3.6.7"
