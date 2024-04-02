@@ -1,26 +1,30 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import api from './api/index.js';
+import { RouterLink } from 'vue-router';
+import Home from './components/HelloWorld.vue';
+
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
-  <p @click="ping">ping</p>
+  <router-view>
+    <Home></Home>
+    <!-- <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+      <router-link to="/profile">Profile</router-link>
+    </div> -->
+   </router-view> 
+ 
+ 
 </template>
 
 <script>
-import api from './api/index.js';
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Home,
+    
   },
   data() {
     return {
