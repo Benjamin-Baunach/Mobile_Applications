@@ -18,11 +18,13 @@ export default {
         return await response.json();
     },
 
-    async register(username, password) {
+    async register({username, password, userid, fullname, nickname}) {
         return await this.postData({
             request: 'register',
-            username: username,
-            password: password
+            userid: userid,
+            password: password,
+            nickname: nickname,
+            fullname: fullname,
         });
     },
 
