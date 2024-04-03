@@ -10,7 +10,8 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         { path: '/', component: App },
-        { path: '/about', component: () => import('./App.vue') }
+        { path: '/about', component: () => import('./App.vue') },
+        { path: '/register', component: () => import('./views/Register.vue') }
     ]
 });
 
