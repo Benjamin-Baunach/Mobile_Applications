@@ -36,12 +36,9 @@ export default {
         });
     },
 
-    async login(username, password) {
-        return await this.postData({
-            request: 'login',
-            username: username,
-            password: password
-        });
+    async login({username, password}) {
+        const response = await fetch(`${this.baseURL}?request=login&userid=${username}&password=${password}`);
+        return await response.json();
     },
 
     async logout(username, password) {
@@ -63,8 +60,9 @@ export default {
         return await this.getData('fetchmessages');
     },
 
-    async getmessages() {
-        return await this.getData('getmessages');
+    async getmessages({token}) {
+        const response = await fetch(`${this.baseURL}?request=getmessages&token=${token}`);
+        return await response.json();
     },
 
     async fetchphoto() {
