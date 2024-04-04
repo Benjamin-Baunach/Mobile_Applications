@@ -1,80 +1,86 @@
 //API fetches
 export default {
-    baseURL: 'https://www2.hs-esslingen.de/~melcher/map/chat/api/',
+  baseURL: "https://www2.hs-esslingen.de/~melcher/map/chat/api/",
 
-    async postData(data) {
-        const response = await fetch(this.baseURL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
+  async postData(data) {
+    const response = await fetch(this.baseURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    return await response.json();
+  },
+
+  async getData(request) {
+    const response = await fetch(`${this.baseURL}?request=${request}`);
+    return await response.json();
+  },
+
+  async register(username, password) {
+    return await this.postData({
+      request: "register",
+      username: username,
+      password: password,
+    });
+  },
+
+  async deregister(username, password) {
+    return await this.postData({
+      request: "deregister",
+      username: username,
+      password: password,
+    });
+  },
+
+  async login(userid, password) {
+    return await this.postData({
+      request: "login",
+      userid: userid,
+      password: password,
+    });
+  },
+
+  async logout(username, password) {
+    return await this.postData({
+      request: "logout",
+      username: username,
+      password: password,
+    });
+  },
+
+  async validatetoken(token) {
+    try {
+      const response = await fetch(`https://www2.hs-esslingen.de/~melcher/map/chat/api/?request=validatetoken&token=${token}`);
+      if (response.ok) {
         return await response.json();
-    },
+      } else {
+        throw new Error('Fehler beim Validieren des Tokens: Serverantwort fehlerhaft.');
+      }
+    } catch (error) {
+      console.error('Fehler beim Validieren des Tokens:', error);
+      throw error;
+    }
+  },
 
-    async getData(request) {
-        const response = await fetch(`${this.baseURL}?request=${request}`);
-        return await response.json();
-    },
+  async fetchmessages() {
+    return await this.getData("fetchmessages");
+  },
 
-    async register(username, password) {
-        return await this.postData({
-            request: 'register',
-            username: username,
-            password: password
-        });
-    },
+  async getmessages() {
+    return await this.getData("getmessages");
+  },
 
-    async deregister(username, password) {
-        return await this.postData({
-            request: 'deregister',
-            username: username,
-            password: password
-        });
-    },
+  async fetchphoto() {
+    return await this.getData("fetchphoto");
+  },
 
-    async login(username, password) {
-        return await this.postData({
-            request: 'login',
-            username: username,
-            password: password
-        });
-    },
+  async getphoto() {
+    return await this.getData("getphoto");
+  },
 
-    async logout(username, password) {
-        return await this.postData({
-            request: 'logout',
-            username: username,
-            password: password
-        });
-    },
-
-    async validatetoken(token) {
-        return await this.postData({
-            request: 'validatetoken',
-            token: token
-        });
-    },
-
-    async fetchmessages() {
-        return await this.getData('fetchmessages');
-    },
-
-    async getmessages() {
-        return await this.getData('getmessages');
-    },
-
-    async fetchphoto() {
-        return await this.getData('fetchphoto');
-    },
-
-    async getphoto() {
-        return await this.getData('getphoto');
-    },
-
-    async ping() {
-        return await this.getData('ping');
-    },
-    
-}
+  async ping() {
+    return await this.getData("ping");
+  },
+};
