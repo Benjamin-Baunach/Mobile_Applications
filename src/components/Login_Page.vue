@@ -1,8 +1,7 @@
 <script setup>
-import { ref } from 'vue'
 import api from '../api/index';
-import App from '../App.vue';
 import router from '../router/router'
+import Navbar from './Navbar.vue';
 
 defineProps({
   msg: String,
@@ -34,28 +33,34 @@ checkToken();
 </script>
 
 <template>
-  <div class="login-container">
-    <h2>Login</h2>
-    <form @submit.prevent="login">
-      <div class="form-group">
-        <label for="username">Benutzername:</label>
-        <input type="text" id="username" v-model="username" required>
+   <Navbar />
+ <div class="h-[calc(100vh_-_84px)] flex flex-col items-center justify-center">
+  <form class="max-w-md flex flex-col container px-4 mx-auto gap-y-3" @submit.prevent="login">
+    <div class="flex flex-row gap-x-3">
+      <div class="flex-1">
+        <label for="username" class="block text-sm font-medium text-gray-700">Benutzername:</label>
+        <input type="text" id="username" v-model="username" autocomplete="username" placeholder="Benutzername" required
+          class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
       </div>
-      <div class="form-group">
-        <label for="password">Passwort:</label>
-        <input type="password" id="password" v-model="password" required>
+      <div class="flex-1">
+        <label for="password" class="block text-sm font-medium text-gray-700">Passwort:</label>
+        <input type="password" id="password" v-model="password" autocomplete="current-password" placeholder="Passwort" required
+          class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
       </div>
-      <input type="checkbox" id="checkbox" v-model="checked">
-      <label for="checkbox">eingeloggt bleiben</label>
-      <div>
-      </div>
-      <button type="submit">Einloggen</button>
-      <router-link :to="{ path: '/RegisterPage' }">
-        <button type="button">Register</button>
-      </router-link>
-    </form>
-    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-  </div>
+    </div>
+    <div class="flex items-center">
+      <input type="checkbox" id="checkbox" v-model="checked" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+      <label for="checkbox" class="ml-2 block text-sm text-gray-900">Eingeloggt bleiben</label>
+    </div>
+    <button type="submit" class="w-full mt-4 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      Einloggen
+    </button>
+    <p v-if="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</p>
+  </form>
+  <p class="text-center text-sm text-gray-500 mt-4">
+    Hast du noch keinen Account? <router-link to="/RegisterPage" class="text-blue-500">Registrieren</router-link>
+  </p>
+</div>
 </template>
 
 <script>
@@ -99,45 +104,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.login-container {
-  max-width: 300px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input[type="text"],
-input[type="password"] {
-  width: 100%;
-  padding: 8px;
-  font-size: 16px;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.error-message {
-  color: #ff0000;
-  margin-top: 10px;
-}
-</style>
