@@ -1,23 +1,9 @@
 import './style.css'
 import { createApp } from 'vue'
-import { createRouter, createWebHistory } from 'vue-router'
-
+import router from './router/router'
 
 import App from './App.vue'
 //import './registerServiceWorker'
-
-const router = createRouter({
-    history: createWebHistory(),
-    routes: [
-        { path: '/', component: App },
-        { path: '/about', component: () => import('./App.vue') },
-        { path: '/register', component: () => import('./views/Register.vue') },
-        { path: '/overview', component: () => import('./views/ChatList.vue') },
-        { path: '/settings/theme', component: () => import('./views/Theme.vue') }
-    ]
-});
-
-
 
 //Service Worker implementation
 // if ('serviceWorker' in navigator) {
@@ -50,8 +36,6 @@ if (window.Notification) {
     //         if (permission === 'granted') showNotification('newly granted');
     //     }); }
     }
-
-createApp(App)
-.use(router)
-    .mount('#app')
+    
+createApp(App).use(router).mount('#app')
     

@@ -1,19 +1,18 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import About from '../views/About.vue'
-import Profile from '../views/Profile.vue' // Stellen Sie sicher, dass dies auf Ihren tatsächlichen Komponentennamen verweist
+import { createRouter, createWebHistory,} from 'vue-router';
+import LoginPage from '../components/Login_Page.vue';
+
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "LoginPage",
+    component: LoginPage
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(),
   routes
-})
+});
 
-export default router
+export default router;
