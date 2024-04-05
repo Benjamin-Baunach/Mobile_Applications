@@ -1,13 +1,12 @@
 <template>
-    <router-link to="/" class="flex flex-row gap-4" v-if="lastActivity!==undefined && lastChatMessage!==undefined">
-        <Avatar class="bg-primary-600 h-14 w-14 rounded-full flex items-center justify-center">
+    <router-link :to="`/chat/${id}`" class="flex flex-row gap-4" v-if="lastActivity!==undefined && lastChatMessage!==undefined">
+        <Avatar class="bg-primary-950 h-14 w-14 rounded-full flex items-center justify-center">
             <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
-            <AvatarFallback>fallbackImage</AvatarFallback>
         </Avatar>
         <div class="flex flex-col flex-1">
             <div class="flex justify-between items-start w-full">
-                <p class="text-xl text-neutral-950">{{name}}</p>
-                <p class="text-base text-neutral-950">{{ formattedDate(lastActivity) }}</p>
+                <p class="text-xl text-neutral-950 dark:text-neutral-50">{{name}}</p>
+                <p class="text-base text-neutral-950 dark:text-neutral-500">{{ formattedDate(lastActivity) }}</p>
             </div>
             <div class="flex gap-x-2 text-base items-center text-neutral-500">
                 <CheckCheck class="stroke-blue-400" size="16" />
@@ -46,6 +45,10 @@
             fallbackImage,
         },
         props: {
+            id: {
+                type: undefined,
+                required: true,
+            },
             name: {
                 type: String,
                 required: true,

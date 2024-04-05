@@ -1,7 +1,7 @@
 <script setup>
 import api from '../api/index';
 import router from '../router/router'
-import Navbar from '@/components/Navbar.vue';
+import AuthNavbar from '@/components/AuthNavbar.vue';
 
 defineProps({
   msg: String,
@@ -10,7 +10,7 @@ defineProps({
 
 async function checkToken() {
   const token = localStorage.getItem('token');
-  console.log("Token WEB", token);
+  console.log("Token WEB", token.token);
 
   if (token) {
     try {
@@ -24,7 +24,7 @@ async function checkToken() {
       }
     } catch (error) {
       console.error("Fehler", error);
-      router.push({ path: '/chats' });
+      router.push({ path: '/' });
     }
   }
 }
@@ -34,7 +34,7 @@ checkToken();
 </script>
 
 <template>
-  <Navbar />
+  <AuthNavbar />
   <div class="h-[calc(100vh_-_84px)] flex flex-col items-center justify-center">
     <form class="max-w-md flex flex-col container px-4 mx-auto gap-y-3" @submit.prevent="login">
       <div class="flex flex-row gap-x-3">
@@ -92,7 +92,7 @@ export default {
           router.push({ path: '/chats' }); 
           // Token im localStorage speichern, wenn die Checkbox aktiviert ist
           if (this.checked) {
-            localStorage.setItem('token', response.token);
+            localStorage.setItem('token', JSON.stringify({ token: response.token, hash: response.hash }));
           }
         } else {
           // Authentifizierung fehlgeschlagen

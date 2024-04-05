@@ -1,4 +1,5 @@
 const animate = require("tailwindcss-animate")
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -49,7 +50,10 @@ module.exports = {
         },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-      }
+      },
+      fontFamily: {
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+      },
     },
   },
   plugins: [animate],

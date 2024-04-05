@@ -1,37 +1,73 @@
 <template>
-   <div class="flex items-start gap-2.5">
-      <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="Jese image">
-      <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-         <div class="flex items-center space-x-2 rtl:space-x-reverse">
-            <span class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
-         </div>
-         <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome. I think our users will really appreciate the improvements.</p>
-         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
+   <div class="flex items-start gap-2.5 mt-3" v-if="!isCurrentUser">
+      <!-- <div class="w-8 h-8 rounded-full bg-neutral-200" /> -->
+      <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-3 border-gray-200 bg-gray-100 rounded-e-2xl rounded-s-2xl rounded-es-lg dark:bg-gray-700">
+      <span class="text-sm font-medium text-gray-900 dark:text-white" :style="{ color : setColorBasedOnUser(message.userhash)} " v-html="message.usernickname" />
+         <p class="text-sm font-normal text-gray-900 dark:text-white" v-html="message.text" />
       </div>
-      <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" data-dropdown-placement="bottom-start" class="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600" type="button">
-         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
-            <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
-         </svg>
-      </button>
-      <div id="dropdownDots" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600">
-         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
-            <li>
-               <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reply</a>
-            </li>
-            <li>
-               <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Forward</a>
-            </li>
-            <li>
-               <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Copy</a>
-            </li>
-            <li>
-               <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
-            </li>
-            <li>
-               <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
-            </li>
-         </ul>
+   </div>
+   <div class="flex gap-2.5 mt-3 ml-auto" v-else>
+      <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-3 border-primary-300 bg-primary-200 rounded-e-2xl rounded-s-2xl rounded-ee-lg dark:bg-primary-700 ml-auto">
+         <p class="text-sm font-normal text-neutral-950 dark:text-white" v-html="message.text" />
       </div>
    </div>
 </template>
+
+<script>
+export default {
+  name: 'Message',
+  props: {
+      message: {
+         type: Object,
+         required: true
+      },
+  },
+  methods: {
+   setColorBasedOnUser(id) {
+   // Generate a hash code for the ID
+   const hashCode = id.split('').reduce((acc, char) => {
+      return char.charCodeAt(0) + ((acc << 5) - acc);
+   }, 0);
+
+   // Convert the hash code to a color in hexadecimal format
+   const color = '#' + Math.abs(hashCode).toString(16).slice(0, 6);
+
+   return color;
+   },
+   formattedDate(time) {
+      const dateParts = time.split('_');
+      const date = new Date(dateParts[0].replace(/-/g, '/') + ' ' + dateParts[1].replace(/-/g, ':'));
+      const today = new Date();
+      const yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      // If the date is today, display only hour and minute
+      if (date.toDateString() === today.toDateString()) {
+         const options = { hour: 'numeric', minute: 'numeric' };
+         return date.toLocaleTimeString(navigator.language, options);
+      }
+
+      // If the date is yesterday, display "yesterday"
+      if (date.toDateString() === yesterday.toDateString()) {
+         return 'Yesterday';
+      }
+
+      // If the date is within the last week, display weekday
+      const diffInDays = Math.ceil((today - date) / (1000 * 60 * 60 * 24));
+      if (diffInDays <= 7) {
+         const options = { weekday: 'long', hour: 'numeric', minute: 'numeric' };
+         return date.toLocaleDateString(navigator.language, options);
+      }
+
+      // Otherwise, display the full date
+      const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
+      return date.toLocaleDateString(navigator.language, options);
+   },
+  },
+  computed: {
+      isCurrentUser() {
+         return this.message.userhash === JSON.parse(localStorage.getItem('token')).hash;
+      },
+  }
+}
+</script>

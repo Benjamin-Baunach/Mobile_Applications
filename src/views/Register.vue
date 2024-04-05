@@ -1,5 +1,5 @@
 <template>
-  <Navbar />
+  <AuthNavbar />
 
   <div class="h-[calc(100vh_-_84px)] flex flex-col items-center justify-center">
     <form class="max-w-md flex flex-col container px-4 mx-auto gap-y-3" :class="{ 'opacity-50 blur-none' : success}" @submit="onSubmit">
@@ -102,7 +102,7 @@ import * as z from 'zod'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { Vue3Lottie } from 'vue3-lottie'
-import Navbar from '@/components/Navbar.vue'
+import AuthNavbar from '@/components/AuthNavbar.vue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input';
 import { vAutoAnimate } from '@formkit/auto-animate/vue'

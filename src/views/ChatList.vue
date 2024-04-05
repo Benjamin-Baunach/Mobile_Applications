@@ -1,14 +1,30 @@
 <template>
-  <Navbar />
+  <div class="h-screen">
+    <Navbar>
+      <template #title>
+        <div class="flex items-center flex-row gap-4">
+          <img src="@/assets/logo.png" alt="Vue logo" class="h-8" />
+          <p class="text-lg font-bold text-neutral-950">BubbleChat</p>
+        </div>
+      </template>
+      <template #right>
+        <RouterLink to="/settings">
+          <button class="flex items-center justify-center w-10 h-10 rounded-full bg-primary-600 text-white">
+            <UserRound class="w-6 h-6" />
+          </button>
+        </RouterLink>
+      </template>
+    </Navbar>
 
-  <div class="h-[calc(100vh_-_84px)] flex flex-col items-center justify-start">
-    <div class="max-w-md flex flex-col container px-4 mx-auto gap-y-3">
-      <ChatListItem name="Group" :lastActivity="lastMessage.time" :lastChatMessage="lastMessage.text" />
-      
-      <div class="fixed bottom-5 right-5">
-        <button class="flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-600 text-white">
-          <MessageCircleMore class="w-6 h-6"  />
-        </button>
+    <div class="h-fill flex flex-col items-center justify-start pt-3">
+      <div class="max-w-md flex flex-col container px-4 mx-auto gap-y-3">
+        <ChatListItem name="Group" :id="lastMessage.chatid" :lastActivity="lastMessage.time" :lastChatMessage="lastMessage.text" />
+        
+        <div class="fixed bottom-5 right-5">
+          <button class="flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-600 text-white">
+            <MessageCircleMore class="w-6 h-6" />
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -16,17 +32,19 @@
 </template>
 
 <script>
+
 import api from '@/api/index.js';
 import Navbar from '@/components/Navbar.vue';
 import ChatListItem from '@/components/ChatListItem.vue'
-import { MessageCircleMore } from 'lucide-vue-next'
+import { MessageCircleMore, UserRound } from 'lucide-vue-next'
 
 export default {
   name: 'ChatList',
   components: {
     Navbar,
     ChatListItem,
-    MessageCircleMore
+    MessageCircleMore,
+    UserRound
   },
   data() {
     return {
@@ -37,13 +55,9 @@ export default {
     this.lastMessage = await this.getMessages();
   },
   methods: {
-    async getToken() {
-      const token = await api.login({ username: 'niepit00', password: 'MPissuss124.'});
-      return token.token;
-    },
     async getMessages() {
-      const token = await this.getToken();
-      let result = await api.getmessages({token: token});
+      const token = JSON.parse(localStorage.getItem('token'));
+      let result = await api.getmessages({token: token.token});
       return result.messages[result.messages.length - 1] ?? 'No messages';
     }
   }

@@ -18,15 +18,15 @@ export default {
     return await response.json();
   },
 
-    async register({username, password, userid, fullname, nickname}) {
-        return await this.postData({
-            request: 'register',
-            userid: userid,
-            password: password,
-            nickname: nickname,
-            fullname: fullname,
-        });
-    },
+  async register({username, password, userid, fullname, nickname}) {
+      return await this.postData({
+          request: 'register',
+          userid: userid,
+          password: password,
+          nickname: nickname,
+          fullname: fullname,
+      });
+  },
 
   async deregister(username, password) {
     return await this.postData({
@@ -66,17 +66,9 @@ export default {
     }
   },
 
-  async fetchmessages() {
-    return await this.getData("fetchmessages");
-  },
-
-    async getmessages({token}) {
-        const response = await fetch(`${this.baseURL}?request=getmessages&token=${token}`);
-        return await response.json();
-    },
-
-  async fetchphoto() {
-    return await this.getData("fetchphoto");
+  async getmessages({token}) {
+      const response = await fetch(`${this.baseURL}?request=getmessages&token=${token}`);
+      return await response.json();
   },
 
   async getphoto() {
@@ -86,4 +78,13 @@ export default {
   async ping() {
     return await this.getData("ping");
   },
+
+  async sendmessage({token, message, chatid}) {
+    return await this.postData({
+      request: "postmessage",
+      token: token,
+      text: message,
+      chatid: chatid,
+    });
+  }
 };
