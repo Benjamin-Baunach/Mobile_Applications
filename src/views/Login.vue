@@ -2,6 +2,7 @@
 import api from '../api/index';
 import router from '../router/router'
 import AuthNavbar from '@/components/AuthNavbar.vue';
+import AuthService from '../authentification/authService'
 
 defineProps({
   msg: String,
@@ -10,7 +11,6 @@ defineProps({
 
 async function checkToken() {
   const token = localStorage.getItem('token');
-  console.log("Token WEB", token.token);
 
   if (token) {
     try {
@@ -86,7 +86,8 @@ export default {
         if (response && response.token) {
           // Erfolgreich eingeloggt
           console.log(response.token);
-          alert('Erfolgreich eingeloggt!');
+          //Token für  Authentifizierung setzen
+          AuthService.setAuthToken(response.token); 
 
           // Benutzer weiterleiten
           router.push({ path: '/chats' }); 
