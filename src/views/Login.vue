@@ -10,11 +10,13 @@ defineProps({
 
 
 async function checkToken() {
-  const token = AuthService.getAuthToken();
 
-  if (!token) return;
+  const stayLoggedToken = localStorage.getItem('tokenStayLogged');
+ 
+
+  if (!stayLoggedToken) return;
   try {
-    const response = await api.validatetoken(token);
+    const response = await api.validatetoken(stayLoggedToken);
     console.log(response);
     if (response && response.status === 'ok') {
       router.push({ path: '/chats' });
@@ -90,10 +92,11 @@ export default {
           if(!localStorage.getItem('imageUrl')){
             localStorage.setItem('imageUrl', JSON.stringify({ backgroundImage: '/img/backgrounds/bg_p_01.svg', type: 'pattern'}));
           }
-
+          
+          localStorage.setItem('token', JSON.stringify({ token: response.token, hash: response.hash }));
           // Token im localStorage speichern, wenn die Checkbox aktiviert ist
           if (this.checked) {
-            localStorage.setItem('token', JSON.stringify({ token: response.token, hash: response.hash }));
+            localStorage.setItem('tokenStayLogged', response.token)
           }
           // Benutzer weiterleiten
           router.push({ path: '/chats' }); 
