@@ -71,9 +71,9 @@ export default {
       return await response.json();
   },
 
-  async getphoto({token}) {
-    const response = await fetch(`${this.baseURL}?request=getphoto&token=${token}`);
-    return await response.json();
+  async getphoto({token, photoId}) {
+    const response = await fetch(`${this.baseURL}?request=getphoto&token=${token}&photoid=${photoId}`);
+    return await response.blob();
   },
 
   async ping() {

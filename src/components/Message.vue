@@ -2,8 +2,20 @@
    <div class="flex items-start gap-2.5 mt-3" v-if="!isCurrentUser">
       <!-- <div class="w-8 h-8 rounded-full bg-neutral-200" /> -->
       <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-3 border-gray-200 bg-gray-100 rounded-e-2xl rounded-s-2xl rounded-es-lg dark:bg-gray-700">
-      <span class="text-sm font-medium text-gray-900 dark:text-white" :style="{ color : setColorBasedOnUser(message.userhash)} " v-html="message.usernickname" />
+         <span class="text-sm font-medium text-gray-900 dark:text-white" :style="{ color : setColorBasedOnUser(message.userhash)} " v-html="message.usernickname" />
          <p class="text-sm font-normal text-gray-900 dark:text-white" v-html="message.text" />
+         <Dialog>
+            <DialogTrigger as-child>
+               <img class="w-full h-auto cursor-pointer rounded-lg mt-2.5" v-if="message.photoid" :src="photo" />
+            </DialogTrigger>
+            <DialogContent class="w-screen bg-transparent border-none shadow-none h-[50vh] text-white py-0 px-2">
+               <DialogHeader />
+               <div>
+                  <img class="w-full h-auto cursor-pointer rounded-lg mt-2.5" v-if="message.photoid" :src="photo" />
+                  <p class="text-sm font-normal text-white dark:text-white mt-3" v-html="message.text" />
+               </div>
+            </DialogContent>
+         </Dialog>
       </div>
    </div>
    <div class="flex gap-2.5 mt-3 ml-auto" v-else>
@@ -13,6 +25,19 @@
    </div>
 </template>
 
+<script setup>
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import api from '@/api/index.js';
+</script>
+
 <script>
 export default {
   name: 'Message',
@@ -21,6 +46,14 @@ export default {
          type: Object,
          required: true
       },
+  },
+  data() {
+      return {
+         photo: null
+      }
+  },
+  mounted() {
+      this.getPhotoFromMessage(this.message.photoid);
   },
   methods: {
    setColorBasedOnUser(id) {
@@ -63,11 +96,18 @@ export default {
       const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
       return date.toLocaleDateString(navigator.language, options);
    },
+   async getPhotoFromMessage(photoId) {
+      if (!this.message.photoid) return;
+      const token = JSON.parse(localStorage.getItem('token'));
+      const blob = await api.getphoto({token: token.token, photoId: photoId});
+      const image = URL.createObjectURL(blob);
+      this.photo = image;
+   },
   },
   computed: {
       isCurrentUser() {
          return this.message.userhash === JSON.parse(localStorage.getItem('token')).hash;
       },
-  }
+   },
 }
 </script>

@@ -113,7 +113,7 @@ export default {
       this.isEmojiPickerOpen = e;
       // scroll after 300ms
       setTimeout(() => this.scrollToBottom(), 400);
-    }
+    },
   },
   computed: {
     style() {
