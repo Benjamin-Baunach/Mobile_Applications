@@ -10,7 +10,7 @@ defineProps({
 
 
 async function checkToken() {
-  const token = localStorage.getItem('token');
+  const token = JSON.parse(localStorage.getItem('token')).token;
 
   if (token) {
     try {
@@ -89,12 +89,12 @@ export default {
           //Token für  Authentifizierung setzen
           AuthService.setAuthToken(response.token); 
 
-          // Benutzer weiterleiten
-          router.push({ path: '/chats' }); 
           // Token im localStorage speichern, wenn die Checkbox aktiviert ist
           if (this.checked) {
             localStorage.setItem('token', JSON.stringify({ token: response.token, hash: response.hash }));
           }
+          // Benutzer weiterleiten
+          router.push({ path: '/chats' }); 
         } else {
           // Authentifizierung fehlgeschlagen
           this.errorMessage = 'Ungültige Benutzername oder Passwort.';

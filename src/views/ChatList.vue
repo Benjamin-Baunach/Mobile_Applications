@@ -4,7 +4,7 @@
       <template #title>
         <div class="flex items-center flex-row gap-4">
           <img src="@/assets/logo.png" alt="Vue logo" class="h-8" />
-          <p class="text-lg font-bold text-neutral-950">BubbleChat</p>
+          <p class="text-lg font-medium text-neutral-950 dark:text-white">BubbleChat</p>
         </div>
       </template>
       <template #right>

@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory,} from 'vue-router';
+import AuthService from '../authentification/authService'
 import Login from '@/views/Login.vue';
 import Register from '@/views/Register.vue';
 import Chat from '@/views/Chat.vue';
 import ChatList from '@/views/ChatList.vue';
 import Theme from '@/views/Theme.vue';
-import AuthService from '../authentification/authService'
+import Settings from '@/views/Settings.vue';
 
 
 const routes = [
@@ -33,7 +34,7 @@ const routes = [
   {
     path: "/settings",
     name: "Settings",
-    component: Chat,
+    component: Settings,
     meta: {requiresAuth: true}
   },
   {

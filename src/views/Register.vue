@@ -80,7 +80,7 @@
         Create Account
       </Button>
       <p class="text-center text-sm text-gray-500 mb-10">
-        Already have an account? <router-link to="/login" class="text-blue-500">Login</router-link>
+        Already have an account? <router-link to="/" class="text-blue-500">Login</router-link>
       </p>
     </form>
     <div v-if="success" class="absolute bottom-1/4 right-0 z-10 left-0 flex flex-col justify-center items-center">
