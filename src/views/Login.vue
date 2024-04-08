@@ -4,6 +4,25 @@ import router from '../router/router'
 import AuthNavbar from '@/components/AuthNavbar.vue';
 import AuthService from '../authentification/authService'
 
+import * as z from 'zod'
+import { toTypedSchema } from '@vee-validate/zod'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form'
+import {
+  EyeOff,
+  Eye
+} from 'lucide-vue-next'
+
 defineProps({
   msg: String,
 })
@@ -12,7 +31,7 @@ defineProps({
 async function checkToken() {
 
   const stayLoggedToken = localStorage.getItem('tokenStayLogged');
- 
+
 
   if (!stayLoggedToken) return;
   try {
@@ -38,30 +57,57 @@ checkToken();
   <AuthNavbar />
   <div class="h-[calc(100vh_-_84px)] flex flex-col items-center justify-center">
     <form class="max-w-md flex flex-col container px-4 mx-auto gap-y-3" @submit.prevent="login">
-      <div class="flex flex-row gap-x-3">
-        <div class="flex-1">
-          <label for="username" class="block text-sm font-medium text-gray-700">Benutzername:</label>
-          <input type="text" id="username" v-model="username" autocomplete="username" placeholder="Benutzername"
-            required
-            class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-        </div>
-        <div class="flex-1">
-          <label for="password" class="block text-sm font-medium text-gray-700">Passwort:</label>
-          <input type="password" id="password" v-model="password" autocomplete="current-password" placeholder="Passwort"
-            required
-            class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-        </div>
+
+      <div class="flex-1 relative">
+        <FormField v-slot="{ componentField }" name="username">
+          <FormItem v-auto-animate>
+            <FormLabel for="username">Username:</FormLabel>
+            <FormControl>
+              <Input type="text" id="username" v-model="username" autocomplete="Username" placeholder="Username"
+                v-bind="componentField" required />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
       </div>
-      <div class="flex items-center">
-        <input type="checkbox" id="checkbox" v-model="checked"
-          class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-        <label for="checkbox" class="ml-2 block text-sm text-gray-900">Eingeloggt bleiben</label>
+
+      <div class="flex-1 relative">
+        <FormField>
+          <FormItem v-auto-animate>
+            <FormLabel class="mt-2" for="password">Password:</FormLabel>
+            <FormControl>
+              <div class="relative">
+                <Input :type="!showPassword ? 'password' : 'text'" v-model="password" autocomplete="password"
+                  ref="password" placeholder="Password" class="pr-10" :class="{ 'border-red-500': passwordError }" />
+                <span class="absolute right-0 top-1/2 transform -translate-y-1/2 flex items-center cursor-pointer px-2 "
+                  @click="togglePassword">
+                  <EyeOff v-if="!showPassword" class="size-6 text-muted-foreground" />
+                  <Eye v-else class="size-6 text-muted-foreground" />
+                </span>
+              </div>
+              <FormDescriptionv v-if="passwordError" class="text-red-500">Password must be at least 8 characters long.
+              </FormDescriptionv>
+            </FormControl>
+          </FormItem>
+        </FormField>
       </div>
-      <button type="submit"
-        class="w-full mt-4 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+
+      <div class="flex items-center justify-center mt-6">
+        <FormField>
+          <FormItem v-auto-animate class="flex items-center">
+            <Checkbox type="checkbox" id="checkbox" v-model="checked"
+              class="h-7 w-7 text-green-500 focus:ring-green-500 border-gray-300 rounded-md" />
+            <FormLabel for="checkbox" class="ml-2 block text-sm text-gray-900">Stay logged in</FormLabel>
+          </FormItem>
+        </FormField>
+      </div>
+
+      <Button class="mt-10" type="submit">
         Einloggen
-      </button>
-      <p v-if="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</p>
+      </Button>
+      <p v-if="errorMessage" class="text-center text-red-500 mt-2 flex justify-center">
+        {{ errorMessage }}
+      </p>
     </form>
     <p class="text-center text-sm text-gray-500 mt-4">
       Hast du noch keinen Account? <router-link to="/register" class="text-blue-500">Registrieren</router-link>
@@ -76,39 +122,56 @@ export default {
     return {
       username: '',
       password: '',
-      errorMessage: ''
+      errorMessage: '',
+      showPassword: false
     };
   },
+
+
   methods: {
     async login() {
       try {
+
+        console.log("Username: ", this.username, " Passwort: ", this.password);
         const response = await api.login(this.username, this.password);
         // Überprüft die Antwort von der API
         if (response && response.token) {
           // Erfolgreich eingeloggt
           console.log(response.token);
           //Token für  Authentifizierung setzen
-          AuthService.setAuthToken(response.token); 
-          if(!localStorage.getItem('imageUrl')){
-            localStorage.setItem('imageUrl', JSON.stringify({ backgroundImage: '/img/backgrounds/bg_p_01.svg', type: 'pattern'}));
+          AuthService.setAuthToken(response.token);
+          if (!localStorage.getItem('imageUrl')) {
+            localStorage.setItem('imageUrl', JSON.stringify({ backgroundImage: '/img/backgrounds/bg_p_01.svg', type: 'pattern' }));
           }
-          
+
           localStorage.setItem('token', JSON.stringify({ token: response.token, hash: response.hash }));
           // Token im localStorage speichern, wenn die Checkbox aktiviert ist
           if (this.checked) {
             localStorage.setItem('tokenStayLogged', response.token)
           }
           // Benutzer weiterleiten
-          router.push({ path: '/chats' }); 
+          router.push({ path: '/chats' });
         } else {
           // Authentifizierung fehlgeschlagen
-          this.errorMessage = 'Ungültige Benutzername oder Passwort.';
+          this.errorMessage = 'Ungültiger Benutzername oder Passwort.';
         }
       } catch (error) {
         // Bei einem Fehler die Fehlermeldung anzeigen
         console.error('Fehler beim Einloggen:', error);
         this.errorMessage = 'Fehler beim Einloggen: ' + error.message;
       }
+    },
+
+    togglePassword() {
+      this.showPassword = !this.showPassword;
+    },
+    validatePassword() {
+      this.passwordError = this.password.length < 8;
+    }
+  },
+  watch: {
+    password() {
+      this.validatePassword();
     }
   }
 };
