@@ -31,21 +31,17 @@
 
 </template>
 
-<script>
-
+<script setup>
 import api from '@/api/index.js';
 import Navbar from '@/components/Navbar.vue';
 import ChatListItem from '@/components/ChatListItem.vue'
 import { MessageCircleMore, UserRound } from 'lucide-vue-next'
+</script>
+
+<script>
 
 export default {
   name: 'ChatList',
-  components: {
-    Navbar,
-    ChatListItem,
-    MessageCircleMore,
-    UserRound
-  },
   data() {
     return {
       lastMessage: []
@@ -59,7 +55,7 @@ export default {
       const token = JSON.parse(localStorage.getItem('token'));
       let result = await api.getmessages({token: token.token});
       return result.messages[result.messages.length - 1] ?? 'No messages';
-    }
+    },
   }
 }
 

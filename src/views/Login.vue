@@ -10,22 +10,21 @@ defineProps({
 
 
 async function checkToken() {
-  const token = JSON.parse(localStorage.getItem('token')).token;
+  const token = AuthService.getAuthToken();
 
-  if (token) {
-    try {
-      const response = await api.validatetoken(token);
-      console.log(response);
-      if (response && response.status === 'ok') {
-        router.push({ path: '/chats' });
-      } else {
-        localStorage.removeItem('token');
-        console.log("Wrong Token");
-      }
-    } catch (error) {
-      console.error("Fehler", error);
-      router.push({ path: '/' });
+  if (!token) return;
+  try {
+    const response = await api.validatetoken(token);
+    console.log(response);
+    if (response && response.status === 'ok') {
+      router.push({ path: '/chats' });
+    } else {
+      localStorage.removeItem('token');
+      console.log("Wrong Token");
     }
+  } catch (error) {
+    console.error("Fehler", error);
+    router.push({ path: '/' });
   }
 }
 
@@ -88,6 +87,9 @@ export default {
           console.log(response.token);
           //Token für  Authentifizierung setzen
           AuthService.setAuthToken(response.token); 
+          if(!localStorage.getItem('imageUrl')){
+            localStorage.setItem('imageUrl', JSON.stringify({ backgroundImage: '/img/backgrounds/bg_p_01.svg', type: 'pattern'}));
+          }
 
           // Token im localStorage speichern, wenn die Checkbox aktiviert ist
           if (this.checked) {

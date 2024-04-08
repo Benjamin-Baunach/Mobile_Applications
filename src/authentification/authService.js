@@ -1,7 +1,8 @@
 //AuthService
+const storageToken = localStorage.getItem('token');
 
 const AuthService = {
-    authToken: JSON.parse(localStorage.getItem('token')).token ?? null,
+    authToken: storageToken !== null ? JSON.parse(storageToken).token : null,
   
     setAuthToken(token) {
       this.authToken = token;

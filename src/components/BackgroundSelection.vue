@@ -5,7 +5,7 @@
                 <CarouselContent>
                     <CarouselItem v-for="(_, index) in patternBackgrounds" :key="index" class="basis-7/12 sm:basis-1/3">
                         <div
-                            class="p-1 flex h-64 items-center justify-center cursor-pointer rounded-lg dark:invert"
+                            class="p-1 flex h-64 items-center justify-center cursor-pointer rounded-xl dark:invert"
                             :class="background === patternBackgrounds[index] ? 'border-2 border-primary-600 dark:border-[#d4789e]' : ''"
                             @click="setBackground($event, 'pattern')"
                         >
@@ -15,12 +15,12 @@
                 </CarouselContent>
             </Carousel>
         </div>
-        <div class="flex flex-col items-center outline-none">
-            <Carousel class="relative w-full" :opts="{ align: 'start', }">
+        <div class="flex flex-col items-center">
+            <Carousel class="relative w-full outline-none" :opts="{ align: 'start', }">
                 <CarouselContent>
                     <CarouselItem v-for="(_, index) in imageBackgrounds" :key="index" class="basis-7/12 sm:basis-1/3">
                         <div
-                            class="p-1 flex h-64 items-center justify-center cursor-pointer rounded-lg"
+                            class="p-1 flex h-64 items-center justify-center cursor-pointer rounded-xl"
                             :class="background === imageBackgrounds[index] ? 'border-2 border-primary-600' : ''"
                             @click="setBackground($event, 'image')"
                         >

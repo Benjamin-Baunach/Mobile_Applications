@@ -10,7 +10,7 @@
             </div>
             <div class="flex gap-x-2 text-base items-center text-neutral-500">
                 <CheckCheck class="stroke-blue-400" size="16" />
-                <p class="truncate w-full" v-html="lastChatMessage" />
+                <p class="truncate" v-html="lastChatMessage" />
             </div>
         </div>
     </router-link>
