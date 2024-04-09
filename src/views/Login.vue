@@ -4,8 +4,6 @@ import router from '../router/router'
 import AuthNavbar from '@/components/AuthNavbar.vue';
 import AuthService from '../authentification/authService'
 
-import * as z from 'zod'
-import { toTypedSchema } from '@vee-validate/zod'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button'
@@ -85,8 +83,7 @@ checkToken();
                   <Eye v-else class="size-6 text-muted-foreground" />
                 </span>
               </div>
-              <FormDescriptionv v-if="passwordError" class="text-red-500">Password must be at least 8 characters long.
-              </FormDescriptionv>
+              <FormDescription v-if="passwordError" class="text-red-500">Password must be at least 8 characters long.</FormDescription>
             </FormControl>
           </FormItem>
         </FormField>
@@ -97,7 +94,7 @@ checkToken();
           <FormItem v-auto-animate class="flex items-center">
             <Checkbox type="checkbox" id="checkbox" v-model="checked"
               class="h-7 w-7 text-green-500 focus:ring-green-500 border-gray-300 rounded-md" />
-            <FormLabel for="checkbox" class="ml-2 block text-sm text-gray-900">Stay logged in</FormLabel>
+            <FormLabel for="checkbox" class="ml-2 block text-sm ">Stay logged in</FormLabel>
           </FormItem>
         </FormField>
       </div>
@@ -117,13 +114,15 @@ checkToken();
 
 <script>
 export default {
-  name: 'Login_Page',
+  name: 'Login',
   data() {
     return {
       username: '',
       password: '',
       errorMessage: '',
-      showPassword: false
+      showPassword: false,
+      checked: false,
+      passwordError: false,
     };
   },
 

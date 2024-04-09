@@ -44,12 +44,18 @@ export default {
     });
   },
 
-  async logout(username, password) {
-    return await this.postData({
-      request: "logout",
-      username: username,
-      password: password,
-    });
+  async logout(token) {
+    try {
+      const response = await fetch(`https://www2.hs-esslingen.de/~melcher/map/chat/api/?request=logout&token=${token}`);
+      if (response.ok) {
+        return await response.json();
+      } else {
+        throw new Error('Fehler beim Validieren des Tokens: Serverantwort fehlerhaft.');
+      }
+    } catch (error) {
+      console.error('Fehler beim Validieren des Tokens:', error);
+      throw error;
+    }
   },
 
   async validatetoken(token) {
