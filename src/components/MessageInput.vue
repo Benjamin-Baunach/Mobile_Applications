@@ -22,9 +22,14 @@ import theme from '@/theme'
 import EmojiPicker from 'vue3-emoji-picker'
 import 'vue3-emoji-picker/css'
 import { SendHorizontal, Camera, SmilePlus } from 'lucide-vue-next'
+import { defineEmits } from 'vue';
+
+
 </script>
 
 <script>
+
+
 export default {
     name: 'MessageInput',
     emits: ['openEmojiPicker'],
@@ -37,12 +42,19 @@ export default {
     methods: {
         async sendMessage() {
             const token = JSON.parse(localStorage.getItem('token'));
+            console.log(this.$route.params.id);
+            console.log("msg", this.message);
             if (!this.message) return;
-            await api.sendmessage({
-                message: this.message,
-                chatId: this.$route.params.id,
-                token: token.token
-            });
+            // await api.sendmessage({
+            //     message: this.message,
+            //     chatId: this.$route.params.id,
+            //     token: token.token
+            // });
+            
+
+
+          this.$emit('message-send');
+
         },
         onSelectEmoji(emoji) {
             this.message += emoji.i;
