@@ -10,16 +10,44 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer'
 import { Button } from '@/components/ui/button'
+import api from '@/api';
+import router from '@/router/router';
 
-const logout = () => {
-  console.log('Logout')
+async function logout() {
+  const stayLoggedToken = localStorage.getItem('tokenStayLogged');
+  const token = JSON.parse(localStorage.getItem('token')).token;
+
+  console.log(token, " ", stayLoggedToken);
+
+
+  if (token || stayLoggedToken) {
+    try {
+      const response = await api.logout(token);
+
+      if (response && response.status === 'ok') {
+        // Token aus dem localStorage entfernen
+        router.push({ path: '/' });
+        if (token) {
+          localStorage.removeItem('token');
+        }
+        if (stayLoggedToken) {
+          localStorage.removeItem('tokenStayLogged');
+        }
+        // Benutzer zur Startseite weiterleiten
+      } else {
+        console.log('Logout fehlgeschlagen');
+      }
+    } catch (error) {
+      console.log("Fehler", error);
+    }
+  }
 }
 </script>
 
 <template>
   <Drawer>
     <DrawerTrigger>
-        <slot name="trigger" />
+      <slot name="trigger" />
     </DrawerTrigger>
     <DrawerContent>
       <DrawerTitle />
