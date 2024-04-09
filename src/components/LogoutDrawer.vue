@@ -41,7 +41,9 @@ async function logout() {
       console.log("Fehler", error);
     }
   }
-}
+};
+
+
 </script>
 
 <template>
@@ -73,3 +75,15 @@ async function logout() {
     </DrawerContent>
   </Drawer>
 </template>
+
+
+<script>
+export default {
+  name: 'LofoutDrawer',
+  data() {
+    return {
+    };
+  },
+}
+
+</script>
