@@ -3,6 +3,7 @@ import api from '../api/index';
 import router from '../router/router'
 import AuthNavbar from '@/components/AuthNavbar.vue';
 import AuthService from '../authentification/authService'
+import { vAutoAnimate } from '@formkit/auto-animate/vue'
 
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input';
@@ -70,7 +71,7 @@ checkToken();
       </div>
 
       <div class="flex-1 relative">
-        <FormField>
+        <FormField name="password">
           <FormItem v-auto-animate>
             <FormLabel class="mt-2" for="password">Password:</FormLabel>
             <FormControl>
