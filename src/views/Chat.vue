@@ -32,7 +32,7 @@
         </span>
       </div>
     </div>
-    <MessageInput @message-send="() => handleMessageSent()" @openEmojiPicker="(e) => openEmojiPicker(e)" />
+    <MessageInput @message-send="async () => await handleMessageSent()" @openEmojiPicker="(e) => openEmojiPicker(e)" />
   </div>
 </template>
 
@@ -67,7 +67,7 @@ export default {
     async startPolling() {
       // Fetch data initially
       await this.getMessages();
-      this.scrollToBottom();
+      // this.scrollToBottom();
     },
     async getMessages() {
       const token = JSON.parse(localStorage.getItem('token'));
@@ -117,18 +117,9 @@ export default {
       setTimeout(() => this.scrollToBottom(), 400);
     },
     async handleMessageSent() {
-    const token = JSON.parse(localStorage.getItem('token'));
-
-    try {
-        const response = await api.getmessages({ token: token.token });
-        this.messages = response.messages ?? 'No messages';
-        console.log(response.messages);
-        console.log("mess", this.messages);
-    } catch (error) {
-        console.error('Fehler beim Abrufen der Nachrichten:', error);
-    }
-}
-
+      await this.getMessages();
+      this.scrollToBottom();
+    },
   },
   computed: {
     style() {

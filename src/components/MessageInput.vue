@@ -32,7 +32,7 @@ import { defineEmits } from 'vue';
 
 export default {
     name: 'MessageInput',
-    emits: ['openEmojiPicker'],
+    emits: ['openEmojiPicker', 'message-send'],
     data() {
         return {
             message: '',
@@ -43,18 +43,14 @@ export default {
         async sendMessage() {
             const token = JSON.parse(localStorage.getItem('token'));
             console.log(this.$route.params.id);
-            console.log("msg", this.message);
             if (!this.message) return;
-            // await api.sendmessage({
-            //     message: this.message,
-            //     chatId: this.$route.params.id,
-            //     token: token.token
-            // });
-            
-
-
-          this.$emit('message-send');
-
+            await api.sendmessage({
+                message: this.message,
+                chatId: this.$route.params.id,
+                token: token.token
+            });
+            this.message = '';
+            this.$emit('message-send');
         },
         onSelectEmoji(emoji) {
             this.message += emoji.i;
