@@ -1,7 +1,7 @@
 <template>
    <div class="flex items-start gap-2.5 mt-3" v-if="!isCurrentUser">
       <!-- <div class="w-8 h-8 rounded-full bg-neutral-200" /> -->
-      <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-3 border-gray-200 bg-gray-100 rounded-e-2xl rounded-s-2xl rounded-es-lg dark:bg-gray-700">
+      <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-3 border-gray-100 bg-gray-50 rounded-e-2xl rounded-s-2xl rounded-es-lg dark:bg-gray-700">
          <span class="text-sm font-medium text-gray-900 dark:text-white" :style="{ color : setColorBasedOnUser(message.userhash)} " v-html="message.usernickname" />
          <p class="text-sm font-normal text-gray-900 dark:text-white" v-html="message.text" />
          <Dialog>

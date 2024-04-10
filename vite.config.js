@@ -7,7 +7,11 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     port:8080,
-    historyApiFallback: true
+    historyApiFallback: true,
+    https: {
+      key: './server.key',
+      cert: './server.crt'
+    }
   },
   resolve: {
     alias: {
