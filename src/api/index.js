@@ -93,5 +93,15 @@ export default {
       text: message,
       chatid: chatid,
     });
+  },
+
+  async sendPhotoMessage({token, message, photo, chatid}) {
+    return await this.postData({
+      request: "postmessage",
+      token: token,
+      text: message,
+      photo: photo,
+      chatid: chatid,
+    });
   }
 };

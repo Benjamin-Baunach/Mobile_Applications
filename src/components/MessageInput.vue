@@ -1,27 +1,29 @@
 <template>
-    <Transition name="fade">
-        <EmojiPicker v-if="showEmojiPicker" :native="true" theme="light" @select="onSelectEmoji" class="!w-full !shadow-none !mb-3" />
-    </Transition>
-    <div class="w-full justify-between flex-row items-center flex gap-4 px-2 mb-3 z-10">
-        <div class="flex-1 flex justify-between gap-x-3 bg-gray-100 dark:bg-gray-700 px-3 py-4 rounded-2xl">
-            <SmilePlus @click="openEmojiPicker" class="cursor-pointer transition duration-300" :class="openEmojiPicker===true ? 'stroke-primary-500' : ''"/>
+    <div class="w-full justify-between flex-row items-center flex gap-1.5 px-1 mb-2 z-10">
+        <div class="flex-1 flex justify-between gap-x-2.5 bg-white dark:bg-gray-700 px-2.5 py-3 rounded-full">
+            <SmilePlus @click="openEmojiPicker" class="cursor-pointer transition duration-300" :class="showEmojiPicker ? 'stroke-primary-500' : ''"/>
             <input type="text" inputmode="unicode" class="bg-transparent flex-1 focus:outline-none overflow-y-hidden break-words" placeholder="Type a message..." v-model="message" @keyup.enter="sendMessage" />
-            <Camera />
+            <Cam @click="showCamera = !showCamera" class="cursor-pointer transition duration-300" :class="showCamera ? 'stroke-primary-500' : ''"/>
         </div>
-        <Button size="icon" class="h-14 w-14" @click="sendMessage">
+        <Button size="icon" class="h-12 w-12" @click="sendMessage">
             <SendHorizontal class="w-6 h-6" />
         </Button>
     </div>
+    <Transition name="fade">
+        <EmojiPicker v-if="showEmojiPicker" :native="true" theme="light" @select="onSelectEmoji" class="!w-full !shadow-none !mb-0" />
+    </Transition>
+    <Transition name="fade">
+        <Camera v-if="showCamera" @close="showCamera = false" @message-send="message = ''" class="!w-full !shadow-none !mb-0" />
+    </Transition>
 </template>
 
 <script setup>
 import api from '@/api';
 import Button from '@/components/ui/button/Button.vue';
-import router from '@/router/router'
-import theme from '@/theme'
+import Camera from '@/components/Camera.vue';
 import EmojiPicker from 'vue3-emoji-picker'
 import 'vue3-emoji-picker/css'
-import { SendHorizontal, Camera, SmilePlus } from 'lucide-vue-next'
+import { SendHorizontal, Camera as Cam, SmilePlus } from 'lucide-vue-next'
 </script>
 
 <script>
@@ -31,7 +33,8 @@ export default {
     data() {
         return {
             message: '',
-            showEmojiPicker: false
+            showEmojiPicker: false,
+            showCamera: false
         }
     },
     methods: {

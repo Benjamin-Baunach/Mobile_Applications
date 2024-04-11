@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen overflow-y-hidden relative bg-transparent">
+  <div class="h-[-webkit-fill-available] overflow-y-hidden relative bg-transparent">
     <div class="absolute top-0 left-0 w-full h-full -z-20" :class="classes" />
     <div class="absolute top-0 left-0 w-full h-full bg-cover bg-center -z-10" :class="bgClass" :style="style" />
 
@@ -13,7 +13,6 @@
         <div class="flex items-center flex-row gap-3">
           <Avatar class="bg-neutral-950 h-10 w-10 rounded-full flex items-center justify-center">
               <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
-              <AvatarFallback><i v-html="fallbackImage" /></AvatarFallback>
           </Avatar>
           <p class="text-xl font-medium">BubbleChat</p>
         </div>
@@ -23,12 +22,14 @@
     <div
       ref="scrollContainer"
       class="flex flex-col items-center justify-start overflow-y-scroll transition-all duration-300"
-      :class="isEmojiPickerOpen === false ? 'h-[calc(100dvh_-_143px)]' : 'h-[calc(100dvh_-_475px)]'"
+      :class="isEmojiPickerOpen === false ? 'h-[calc(100dvh_-_127px)]' : 'h-[calc(100dvh_-_458px)]'"
     >
       <div class="max-w-md flex flex-col container px-4 mx-auto gap-y-3 mt-3">
         <!-- Add day for each  -->
         <span v-for="(message, index) in messages" :key="message.id" class="text-xs text-gray-500 dark:text-gray-400 last:mb-3">
-          <p class="text-center" v-if="checkLastTime(index)" v-html="formattedDate(message.time)"></p>
+          <div class="text-center backdrop-blur-sm bg-gray-50 dark:bg-neutral-700 w-max mx-auto px-2 py-1 rounded-full bg-opacity-50 last:mb-3" v-if="checkLastTime(index)">
+            <p class="text-xs text-gray-500 dark:text-white">{{ formattedDate(message.time) }}</p>
+          </div>
           <Message :key="message.id" :message="message" />
         </span>
       </div>
@@ -57,7 +58,7 @@ export default {
       isEmojiPickerOpen: false,
     }
   },
-  async created() {
+  async mounted() {
     // Start polling when the component is created
     await this.startPolling();
   },
@@ -97,7 +98,7 @@ export default {
         // If the date is within the last week, display weekday
         const diffInDays = Math.ceil((today - date) / (1000 * 60 * 60 * 24));
         if (diffInDays <= 7) {
-          const options = { weekday: 'long', hour: 'numeric', minute: 'numeric' };
+          const options = { weekday: 'long' };
           return date.toLocaleDateString(navigator.language, options);
         }
 
