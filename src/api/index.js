@@ -73,7 +73,7 @@ export default {
   },
 
   async getmessages({token}) {
-      const response = await fetch(`${this.baseURL}?request=getmessages&token=${token}`);
+      const response = await fetch(`${this.baseURL}?request=getmessages&token=${token}&chatid=1`);
       return await response.json();
   },
 

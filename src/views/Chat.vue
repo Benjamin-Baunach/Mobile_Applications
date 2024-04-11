@@ -19,8 +19,8 @@
       </template>
     </Navbar>
 
-    <div
-      ref="scrollContainer"
+    <div ref="scrollContainer"
+      @scroll="onScroll"
       class="flex flex-col items-center justify-start overflow-y-scroll transition-all duration-300"
       :class="isEmojiPickerOpen === false ? 'h-[calc(100dvh_-_127px)]' : 'h-[calc(100dvh_-_458px)]'"
     >
@@ -30,23 +30,29 @@
           <div class="text-center backdrop-blur-sm bg-gray-50 dark:bg-neutral-700 w-max mx-auto px-2 py-1 rounded-full bg-opacity-50 last:mb-3" v-if="checkLastTime(index)">
             <p class="text-xs text-gray-500 dark:text-white">{{ formattedDate(message.time) }}</p>
           </div>
-          <Message :key="message.id" :message="message" />
+          <Message :key="message.id" :message="message" :is-last="index === messages.length-1" />
         </span>
       </div>
     </div>
-    <MessageInput @openEmojiPicker="(e) => openEmojiPicker(e)" />
+    <MessageInput
+      @message-send="async () => await handleMessageSent()"
+      @openEmojiPicker="(e) => openEmojiPicker(e)"
+      @scroll-to-last="scrollToBottom"
+      :isScrolledDown="scrolledAtBottom"
+    />
   </div>
 </template>
 
 <script setup>
-  import api from '@/api/index.js';
-  import Navbar from '@/components/Navbar.vue';
-  import Message from '@/components/Message.vue';
-  import MessageInput from '@/components/MessageInput.vue';
-  import Button from '@/components/ui/button/Button.vue';
-  import { ChevronLeft, UserRound } from 'lucide-vue-next'
-  import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-  import fallbackImage from '@/assets/user-fallback.svg?raw'
+import api from '@/api/index.js';
+import Navbar from '@/components/Navbar.vue';
+import Message from '@/components/Message.vue';
+import MessageInput from '@/components/MessageInput.vue';
+import Button from '@/components/ui/button/Button.vue';
+import { ChevronLeft, UserRound } from 'lucide-vue-next'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import fallbackImage from '@/assets/user-fallback.svg?raw'
+
 </script>
 
 <script>
@@ -56,21 +62,24 @@ export default {
     return {
       messages: [],
       isEmojiPickerOpen: false,
+      scrolledAtBottom: false,
     }
   },
   async mounted() {
     // Start polling when the component is created
-    await this.startPolling();
+    await this.startPolling().then(() => {
+      setTimeout(() => this.scrollToBottom(), 500);
+    });
   },
   methods: {
     async startPolling() {
       // Fetch data initially
       await this.getMessages();
-      this.scrollToBottom();
+      // this.scrollToBottom();
     },
     async getMessages() {
       const token = JSON.parse(localStorage.getItem('token'));
-      const result = await api.getmessages({token: token.token});
+      const result = await api.getmessages({ token: token.token });
       this.messages = result.messages ?? 'No messages';
       setTimeout(this.getMessages, 5000); // Poll every 5 seconds
     },
@@ -78,22 +87,22 @@ export default {
       return index === 0 || this.formattedDate(this.messages[index].time) !== this.formattedDate(this.messages[index - 1].time);
     },
     formattedDate(time) {
-        const dateParts = time.split('_');
-        const date = new Date(dateParts[0].replace(/-/g, '/') + ' ' + dateParts[1].replace(/-/g, ':'));
-        const today = new Date();
-        const yesterday = new Date(today);
-        yesterday.setDate(yesterday.getDate() - 1);
+      const dateParts = time.split('_');
+      const date = new Date(dateParts[0].replace(/-/g, '/') + ' ' + dateParts[1].replace(/-/g, ':'));
+      const today = new Date();
+      const yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
 
-        // If the date is today, display only hour and minute
-        if (date.toDateString() === today.toDateString()) {
-          const options = { hour: 'numeric', minute: 'numeric' };
-          return date.toLocaleTimeString(navigator.language, options);
-        }
+      // If the date is today, display only hour and minute
+      if (date.toDateString() === today.toDateString()) {
+        const options = { hour: 'numeric', minute: 'numeric' };
+        return date.toLocaleTimeString(navigator.language, options);
+      }
 
-        // If the date is yesterday, display "yesterday"
-        if (date.toDateString() === yesterday.toDateString()) {
-          return 'Yesterday';
-        }
+      // If the date is yesterday, display "yesterday"
+      if (date.toDateString() === yesterday.toDateString()) {
+        return 'Yesterday';
+      }
 
         // If the date is within the last week, display weekday
         const diffInDays = Math.ceil((today - date) / (1000 * 60 * 60 * 24));
@@ -107,13 +116,23 @@ export default {
         return date.toLocaleDateString(navigator.language, options);
     },
     scrollToBottom() {
-      // Scroll to the bottom of the scroll container
       this.$refs.scrollContainer.scrollTop = this.$refs.scrollContainer.scrollHeight;
     },
     openEmojiPicker(e) {
       this.isEmojiPickerOpen = e;
       // scroll after 300ms
       setTimeout(() => this.scrollToBottom(), 400);
+    },
+    async handleMessageSent() {
+      await this.getMessages();
+      this.scrollToBottom();
+    },
+    onScroll({ target: { scrollTop, clientHeight, scrollHeight }}) {
+      if (scrollTop + clientHeight >= scrollHeight) {
+        this.scrolledAtBottom = true;
+      } else {
+        this.scrolledAtBottom = false;
+      }
     },
   },
   computed: {
