@@ -20,6 +20,7 @@
     </Navbar>
 
     <div ref="scrollContainer"
+      @scroll="onScroll"
       class="flex flex-col items-center justify-start overflow-y-scroll transition-all duration-300"
       :class="isEmojiPickerOpen === false ? 'h-[calc(100dvh_-_127px)]' : 'h-[calc(100dvh_-_458px)]'"
     >
@@ -29,11 +30,16 @@
           <div class="text-center backdrop-blur-sm bg-gray-50 dark:bg-neutral-700 w-max mx-auto px-2 py-1 rounded-full bg-opacity-50 last:mb-3" v-if="checkLastTime(index)">
             <p class="text-xs text-gray-500 dark:text-white">{{ formattedDate(message.time) }}</p>
           </div>
-          <Message :key="message.id" :message="message" />
+          <Message :key="message.id" :message="message" :is-last="index === messages.length-1" />
         </span>
       </div>
     </div>
-    <MessageInput @message-send="async () => await handleMessageSent()" @openEmojiPicker="(e) => openEmojiPicker(e)" />
+    <MessageInput
+      @message-send="async () => await handleMessageSent()"
+      @openEmojiPicker="(e) => openEmojiPicker(e)"
+      @scroll-to-last="scrollToBottom"
+      :isScrolledDown="scrolledAtBottom"
+    />
   </div>
 </template>
 
@@ -56,14 +62,15 @@ export default {
     return {
       messages: [],
       isEmojiPickerOpen: false,
+      scrolledAtBottom: false,
     }
   },
   async mounted() {
     // Start polling when the component is created
-    await this.startPolling();
+    await this.startPolling().then(() => {
+      setTimeout(() => this.scrollToBottom(), 500);
+    });
   },
-
-
   methods: {
     async startPolling() {
       // Fetch data initially
@@ -107,14 +114,8 @@ export default {
         // Otherwise, display the full date
         const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
         return date.toLocaleDateString(navigator.language, options);
-      }
-
-      // Otherwise, display the full date
-      const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
-      return date.toLocaleDateString(navigator.language, options);
     },
     scrollToBottom() {
-      // Scroll to the bottom of the scroll container
       this.$refs.scrollContainer.scrollTop = this.$refs.scrollContainer.scrollHeight;
     },
     openEmojiPicker(e) {
@@ -125,6 +126,13 @@ export default {
     async handleMessageSent() {
       await this.getMessages();
       this.scrollToBottom();
+    },
+    onScroll({ target: { scrollTop, clientHeight, scrollHeight }}) {
+      if (scrollTop + clientHeight >= scrollHeight) {
+        this.scrolledAtBottom = true;
+      } else {
+        this.scrolledAtBottom = false;
+      }
     },
   },
   computed: {
