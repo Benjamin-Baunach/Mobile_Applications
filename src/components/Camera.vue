@@ -1,5 +1,5 @@
 <template>
-    <div class="absolute bottom-0 left-0 right-0 top-0 bg-neutral-950">
+    <div class="absolute bottom-0 left-0 right-0 top-0 bg-neutral-950 z-20">
         <Transition name="fade">
             <div v-if="!photo" class="relative flex justify-between flex-col p-4 h-full">
                 <video ref="video" class="absolute top-0 left-0 right-0 bottom-0 z-0 my-auto" autoplay playsinline /> 

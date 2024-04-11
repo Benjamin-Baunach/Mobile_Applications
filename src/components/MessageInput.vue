@@ -18,7 +18,7 @@
         <EmojiPicker v-if="showEmojiPicker" :native="true" theme="light" @select="onSelectEmoji" class="!w-full !shadow-none !mb-0" />
     </Transition>
     <Transition name="fade">
-        <Camera v-if="showCamera" @close="showCamera = false" @message-send="clearMessage" class="!w-full !shadow-none !mb-0" />
+        <Camera v-if="showCamera" @close="showCamera = false" @message-send="clearMessage"/>
     </Transition>
 </template>
 
