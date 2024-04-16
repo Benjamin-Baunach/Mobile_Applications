@@ -7,7 +7,7 @@
     </template>
     <template #title>
       <div class="flex items-center flex-row gap-3">
-        <p class="text-xl font-medium">Theme</p>
+        <p class="text-xl font-medium text-white">Theme</p>
       </div>
     </template>
   </Navbar>

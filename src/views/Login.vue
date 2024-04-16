@@ -84,7 +84,8 @@ checkToken();
                   <Eye v-else class="size-6 text-muted-foreground" />
                 </span>
               </div>
-              <FormDescription v-if="passwordError" class="text-red-500">Password must be at least 8 characters long.</FormDescription>
+              <FormDescription v-if="passwordError" class="text-red-500">Password must be at least 8 characters long.
+              </FormDescription>
             </FormControl>
           </FormItem>
         </FormField>
@@ -93,8 +94,8 @@ checkToken();
       <div class="flex items-center justify-center mt-6">
         <FormField>
           <FormItem v-auto-animate class="flex items-center">
-            <Checkbox type="checkbox" id="checkbox" v-model="checked"
-              class="h-7 w-7 text-green-500 focus:ring-green-500 border-gray-300 rounded-md" />
+            <input type="checkbox" id="myCheckbox" v-model="checked" @change="handleChange" 
+            class="w-5 h-5 accent-green-600 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-600 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
             <FormLabel for="checkbox" class="ml-2 block text-sm ">Stay logged in</FormLabel>
           </FormItem>
         </FormField>
@@ -129,6 +130,11 @@ export default {
 
 
   methods: {
+
+    handleCheckboxChange() {
+      // Hier kannst du die Logik ausführen, die ausgeführt werden soll, wenn das Kontrollkästchen geändert wird
+      console.log('Checkbox changed:', this.checked);
+    },
     async login() {
       try {
 
@@ -146,6 +152,9 @@ export default {
 
           localStorage.setItem('token', JSON.stringify({ token: response.token, hash: response.hash }));
           // Token im localStorage speichern, wenn die Checkbox aktiviert ist
+
+          console.log(this.checked);
+
           if (this.checked) {
             localStorage.setItem('tokenStayLogged', response.token)
           }

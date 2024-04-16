@@ -14,7 +14,7 @@
           <Avatar class="bg-neutral-950 h-10 w-10 rounded-full flex items-center justify-center">
               <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
           </Avatar>
-          <p class="text-xl font-medium">BubbleChat</p>
+          <p class="logo">BubbleChat</p>
         </div>
       </template>
     </Navbar>
