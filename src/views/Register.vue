@@ -2,7 +2,7 @@
  
     <AuthNavbar />
     
-    <div class="h-[calc(100vh_-_84px)] flex flex-col items-center ">
+    <div class="h-[calc(100vh_-_84px)] flex flex-col items-center overflow-y-auto">
       <form class="max-w-md flex flex-col container px-4 mx-auto gap-y-3" :class="{ 'opacity-50 blur-none' : success}" @submit="onSubmit">
       <div class="flex flex-row gap-x-3">
         <FormField v-slot="{ componentField }" name="fname">
