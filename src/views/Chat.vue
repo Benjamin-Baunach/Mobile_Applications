@@ -14,7 +14,7 @@
           <Avatar class="bg-neutral-950 h-10 w-10 rounded-full flex items-center justify-center">
               <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
           </Avatar>
-          <p class="text-xl font-medium">BubbleChat</p>
+          <p class="logo">BubbleChat</p>
         </div>
       </template>
     </Navbar>
@@ -79,7 +79,7 @@ export default {
     },
     async getMessages() {
       const token = JSON.parse(localStorage.getItem('token'));
-      const result = await api.getmessages({ token: token.token });
+      const result = await api.getMessages2({ token: token.token });
       this.messages = result.messages ?? 'No messages';
       setTimeout(this.getMessages, 5000); // Poll every 5 seconds
     },
@@ -124,7 +124,10 @@ export default {
       setTimeout(() => this.scrollToBottom(), 400);
     },
     async handleMessageSent() {
-      await this.getMessages();
+      const token = JSON.parse(localStorage.getItem('token'));
+      const result = await api.getMessages2(token)
+      console.log(result); 
+      this.message = result.messages; 
       this.scrollToBottom();
     },
     onScroll({ target: { scrollTop, clientHeight, scrollHeight }}) {

@@ -28,7 +28,7 @@ import Button from '@/components/ui/button/Button.vue';
 import Camera from '@/components/Camera.vue';
 import EmojiPicker from 'vue3-emoji-picker'
 import 'vue3-emoji-picker/css'
-import { SendHorizontal, Camera as Cam, SmilePlus, ChevronsDown } from 'lucide-vue-next'
+import { SendHorizontal, Camera as Cam, SmilePlus, ChevronsDown, ApertureIcon } from 'lucide-vue-next'
 </script>
 
 <script>
@@ -52,6 +52,7 @@ export default {
     },
     methods: {
         async sendMessage() {
+            
             const token = JSON.parse(localStorage.getItem('token'));
             console.log(this.$route.params.id);
             if (!this.message) return;
