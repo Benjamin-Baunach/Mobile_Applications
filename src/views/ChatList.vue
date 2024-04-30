@@ -3,7 +3,7 @@
     <Navbar>
       <template #title>
         <div class="flex items-center flex-row gap-4 " >
-          <img src="@/assets/chat.png" alt="Vue logo" class="h-8" />
+          <img src="@/assets/icon.svg" alt="Vue logo" class="w-10 h-10 text-white" />
           <p class="logo">BubbleChat</p>
         </div>
       </template>
@@ -20,11 +20,11 @@
       <div class="max-w-md flex flex-col container px-4 mx-auto gap-y-3">
         <ChatListItem name="Group" :id="lastMessage.chatid" :lastActivity="lastMessage.time" :lastChatMessage="lastMessage.text" />
         
-        <div class="fixed bottom-5 right-5">
+        <!-- <div class="fixed bottom-5 right-5">
           <button class="flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-600 text-white">
             <MessageCircleMore class="w-6 h-6" />
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

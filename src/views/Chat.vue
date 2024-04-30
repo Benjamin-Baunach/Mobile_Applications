@@ -10,11 +10,11 @@
         </Button>
       </template>
       <template #title>
-        <div class="flex items-center flex-row gap-3">
+        <div class="flex items-center flex-row gap-2">
           <Avatar class="bg-neutral-950 h-10 w-10 rounded-full flex items-center justify-center">
               <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
           </Avatar>
-          <p class="logo">BubbleChat</p>
+          <p class="text-xl font-medium text-white">Group Chat</p>
         </div>
       </template>
     </Navbar>
@@ -26,12 +26,12 @@
     >
       <div class="max-w-md flex flex-col container px-4 mx-auto gap-y-3 mt-3">
         <!-- Add day for each  -->
-        <span v-for="(message, index) in messages" :key="message.id" class="text-xs text-gray-500 dark:text-gray-400 last:mb-3">
-          <div class="text-center backdrop-blur-sm bg-gray-50 dark:bg-neutral-700 w-max mx-auto px-2 py-1 rounded-full bg-opacity-50 last:mb-3" v-if="checkLastTime(index)">
-            <p class="text-xs text-gray-500 dark:text-white">{{ formattedDate(message.time) }}</p>
+        <div v-for="(mdg, i) in messages" :key="mdg.id" class="text-xs text-gray-500 dark:text-gray-400 last:mb-3 relative">
+          <div class="text-center backdrop-blur-sm sticky top-3 bg-gray-50 dark:bg-neutral-700 w-max mx-auto px-2 py-1 rounded-full bg-opacity-50 last:mb-3">
+            <p class="text-xs text-gray-500 dark:text-white">{{ i }}</p>
           </div>
-          <Message :key="message.id" :message="message" :is-last="index === messages.length-1" />
-        </span>
+          <Message v-for="(message, index) in mdg" :key="index" :message="message" :is-last="i === mdg.length-1" />
+        </div>
       </div>
     </div>
     <MessageInput
@@ -80,7 +80,7 @@ export default {
     async getMessages() {
       const token = JSON.parse(localStorage.getItem('token'));
       const result = await api.getmessages({ token: token.token });
-      this.messages = result.messages ?? 'No messages';
+      this.messages = this.groupMessagesByDate(result.messages) ?? 'No messages';
       setTimeout(this.getMessages, 5000); // Poll every 5 seconds
     },
     checkLastTime(index) {
@@ -95,8 +95,7 @@ export default {
 
       // If the date is today, display only hour and minute
       if (date.toDateString() === today.toDateString()) {
-        const options = { hour: 'numeric', minute: 'numeric' };
-        return date.toLocaleTimeString(navigator.language, options);
+        return 'Today';
       }
 
       // If the date is yesterday, display "yesterday"
@@ -117,6 +116,19 @@ export default {
     },
     scrollToBottom() {
       this.$refs.scrollContainer.scrollTop = this.$refs.scrollContainer.scrollHeight;
+    },
+    groupMessagesByDate(messages) {
+      const groupedMessages = {};
+
+      messages.forEach(message => {
+        const date = this.formattedDate(message.time);
+        if (!groupedMessages[date]) {
+          groupedMessages[date] = [];
+        }
+        groupedMessages[date].push(message);
+      });
+
+      return groupedMessages;
     },
     openEmojiPicker(e) {
       this.isEmojiPickerOpen = e;

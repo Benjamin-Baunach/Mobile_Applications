@@ -1,6 +1,6 @@
 <template>
     <nav class="w-full justify-between flex-row items-center flex gap-4 bg-primary-900 dark:bg-emerald-950 py-4 px-3 border-b border-emerald-200 dark:border-emerald-600">
-         <div class="flex flex-row gap-x-9 items-center">
+         <div class="flex flex-row gap-x-4 items-center">
             <router-link :to="backroute" v-if="backroute">
                 <slot name="backbutton" />
             </router-link>
