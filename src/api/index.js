@@ -1,3 +1,5 @@
+import { store } from '../store.js'
+
 //API fetches
 export default {
   baseURL: "https://www2.hs-esslingen.de/~melcher/map/chat/api/",
@@ -87,6 +89,11 @@ export default {
   },
 
   async sendmessage({token, message, chatid}) {
+    // check if offline
+    if (!navigator.onLine) {
+        store.setMessages({ message: message, chatId: chatid });
+        return;
+    }
     return await this.postData({
       request: "postmessage",
       token: token,
@@ -96,6 +103,11 @@ export default {
   },
 
   async sendPhotoMessage({token, message, photo, chatid}) {
+    // check if offline
+    if (!navigator.onLine) {
+        store.setMessages({ message: message, photo: photo, chatId: chatid });
+        return;
+    }
     return await this.postData({
       request: "postmessage",
       token: token,

@@ -5,6 +5,7 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite --host",
+    "serve": "serve dist",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -15,9 +16,9 @@
     "clsx": "^2.1.0",
     "embla-carousel": "^8.0.1",
     "embla-carousel-vue": "^8.0.1",
+    "https-localhost": "^4.7.1",
     "lucide-vue-next": "^0.364.0",
     "radix-vue": "^1.6.1",
-    "register-service-worker": "^1.7.2",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "vaul-vue": "^0.1.0",
@@ -26,6 +27,7 @@
     "vue-router": "^4.3.0",
     "vue3-emoji-picker": "^1.1.8",
     "vue3-lottie": "^3.3.0",
+    "vuex": "^4.0.2",
     "web-push": "^3.6.7",
     "zod": "^3.22.4"
   },
@@ -36,7 +38,8 @@
     "postcss": "^8.4.36",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.4.3",
-    "vite": "^5.1.6"
+    "vite": "^5.1.6",
+    "vite-plugin-pwa": "^0.20.0"
   },
   "type": "module"
 }

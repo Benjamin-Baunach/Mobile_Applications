@@ -1,29 +1,10 @@
 import './style.css'
 import { createApp } from 'vue'
 import router from './router/router'
+import { store } from './store.js'
+import api from '@/api';
 
 import App from './App.vue'
-//import './registerServiceWorker'
-
-//Service Worker implementation
-// if ('serviceWorker' in navigator) {
-//     window.addEventListener('load', () => {
-//       navigator.serviceWorker.register('/service-worker.js', {scope: "./"})
-//         .then(registration => {
-//           console.log('Service Worker registered:', registration);
-//         })
-//         .catch(error => {
-//           console.error('Service Worker registration failed:', error);
-//         });
-//     });
-//   }
-
-if (navigator.serviceWorker) {
-    navigator.serviceWorker.register('./src/sw.js') .then(registration => {
-        console.log('SW registered');
-        console.log(registration);
-    });
-}
 
 if (window.Notification) {
     // const showNotification = text => {
@@ -35,7 +16,18 @@ if (window.Notification) {
     //     else if (Notification.permission !== 'denied') { Notification.requestPermission(permission => {
     //         if (permission === 'granted') showNotification('newly granted');
     //     }); }
-    }
+}
+
+// if switch from offline to online get localstorage and send to server
+window.addEventListener('online', () => {
+    console.log('online');
+    const token = JSON.parse(localStorage.getItem('token'));
+    if (token === null || store.messages.length === 0) return;
+    store.messages.forEach(m => {
+        m.photo !== null ? api.sendPhotoMessage({token: token, message: m.message, photo: m.photo, chatid: m.chatId}) : api.sendmessage({token: token, message: m.message, chatid: m.chatId});
+    });
+    store.clearMessages();
+})
     
 createApp(App).use(router).mount('#app')
     
