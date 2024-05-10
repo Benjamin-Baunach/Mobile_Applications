@@ -1,7 +1,8 @@
 <template>
     <router-link :to="`/chat/${id}`" class="flex flex-row gap-4" v-if="lastActivity!==undefined && lastChatMessage!==undefined">
-        <Avatar class="bg-primary-950 h-14 w-14 rounded-full flex items-center justify-center">
-            <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
+        <Avatar class="h-14 w-14 rounded-full flex items-center justify-center">
+            <AvatarImage src="https://images.unsplash.com/photo-1583875762487-5f8f7c718d14?q=80&w=512&h=512&fit=crop" alt="@radix-vue" />
+            <AvatarFallback class="h-14 w-14 rounded-full flex items-center justify-center bg-neutral-200 dark:bg-neutral-800" />
         </Avatar>
         <div class="flex flex-col flex-1">
             <div class="flex justify-between items-start w-full">

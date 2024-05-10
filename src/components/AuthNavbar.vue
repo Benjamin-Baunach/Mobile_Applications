@@ -1,5 +1,5 @@
 <template>
-    <nav class="w-full justify-center flex flex-row gap-4 bg-primary-900 py-4 mb-10" >
+    <nav class="w-full justify-center flex flex-row gap-4 bg-primary-900 py-4" >
         <router-link to="/" class="flex flex-row items-center gap-4">
             <img src="@/assets/icon.svg" alt="Vue logo" class="h-8 " />
             <p class="logo">BubbleChat</p>

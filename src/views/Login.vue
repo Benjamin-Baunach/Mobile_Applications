@@ -54,7 +54,7 @@ checkToken();
 
 <template>
   <AuthNavbar />
-  <div class="h-[calc(100vh_-_84px)] flex flex-col items-center justify-center">
+  <div class="h-[calc(100vh_-_64px)] flex flex-col items-center justify-center">
     <form class="max-w-md flex flex-col container px-4 mx-auto gap-y-3" @submit.prevent="login">
 
       <div class="flex-1 relative">
