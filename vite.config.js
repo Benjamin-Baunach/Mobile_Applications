@@ -5,6 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  publicPath: process.env.NODE_ENV === "production" ? "/Mobile_Applications" : "/",
   plugins: [
     vue(),
     VitePWA({
