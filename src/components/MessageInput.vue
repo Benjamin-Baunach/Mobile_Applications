@@ -81,6 +81,7 @@ export default {
             this.$emit('openEmojiPicker', this.showEmojiPicker);
         },
         clearMessage() {
+            this.showCamera = false;
             this.message = '';
             this.$emit('message-send');
         },
