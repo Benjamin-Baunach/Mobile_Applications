@@ -35,7 +35,6 @@ async function checkToken() {
   if (!stayLoggedToken) return;
   try {
     const response = await api.validatetoken(stayLoggedToken);
-    console.log(response);
     if (response && response.status === 'ok') {
       router.push({ path: '/chats' });
     } else {

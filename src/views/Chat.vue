@@ -12,7 +12,7 @@
       <template #title>
         <div class="flex items-center flex-row gap-2">
           <Avatar class="h-10 w-10 rounded-full flex items-center justify-center">
-              <AvatarImage src="https://images.unsplash.com/photo-1583875762487-5f8f7c718d14?q=80&w=512&h=512&fit=crop" alt="@radix-vue" />
+              <AvatarImage src="https://images.unsplash.com/photo-1583875762487-5f8f7c718d14?q=80&w=512&h=512&fit=crop" alt="Chat-Image" />
               <AvatarFallback class="h-14 w-14 rounded-full flex items-center justify-center bg-neutral-200 dark:bg-neutral-800" />
           </Avatar>
           <p class="text-xl font-medium text-white">Birthday Party</p>
@@ -50,9 +50,8 @@ import Navbar from '@/components/Navbar.vue';
 import Message from '@/components/Message.vue';
 import MessageInput from '@/components/MessageInput.vue';
 import Button from '@/components/ui/button/Button.vue';
-import { ChevronLeft, UserRound } from 'lucide-vue-next'
+import { ChevronLeft } from 'lucide-vue-next'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import fallbackImage from '@/assets/user-fallback.svg?raw'
 
 </script>
 
@@ -69,14 +68,13 @@ export default {
   async mounted() {
     // Start polling when the component is created
     await this.startPolling().then(() => {
-      setTimeout(() => this.scrollToBottom(), 500);
+      this.scrollToBottom();
     });
   },
   methods: {
     async startPolling() {
       // Fetch data initially
       await this.getMessages();
-      // this.scrollToBottom();
     },
     async getMessages() {
       const token = JSON.parse(localStorage.getItem('token'));
@@ -84,6 +82,24 @@ export default {
       this.messages = this.groupMessagesByDate(result.messages) ?? 'No messages';
       setTimeout(this.getMessages, 5000); // Poll every 5 seconds
     },
+    scrollToBottom() {
+      this.$refs.scrollContainer.scrollTop = this.$refs.scrollContainer.scrollHeight;
+    },
+    // Group messages by date
+    groupMessagesByDate(messages) {
+      const groupedMessages = {};
+
+      messages.forEach(message => {
+        const date = this.formattedDate(message.time);
+        if (!groupedMessages[date]) {
+          groupedMessages[date] = [];
+        }
+        groupedMessages[date].push(message);
+      });
+
+      return groupedMessages;
+    },
+    // Date formatting
     checkLastTime(index) {
       return index === 0 || this.formattedDate(this.messages[index].time) !== this.formattedDate(this.messages[index - 1].time);
     },
@@ -108,29 +124,14 @@ export default {
         const diffInDays = Math.ceil((today - date) / (1000 * 60 * 60 * 24));
         if (diffInDays <= 7) {
           const options = { weekday: 'long' };
-          return date.toLocaleDateString(navigator.language, options);
+          return date.toLocaleDateString('en-US', options);
         }
 
         // Otherwise, display the full date
         const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
-        return date.toLocaleDateString(navigator.language, options);
+        return date.toLocaleDateString('en-US', options);
     },
-    scrollToBottom() {
-      this.$refs.scrollContainer.scrollTop = this.$refs.scrollContainer.scrollHeight;
-    },
-    groupMessagesByDate(messages) {
-      const groupedMessages = {};
-
-      messages.forEach(message => {
-        const date = this.formattedDate(message.time);
-        if (!groupedMessages[date]) {
-          groupedMessages[date] = [];
-        }
-        groupedMessages[date].push(message);
-      });
-
-      return groupedMessages;
-    },
+    // Open emoji picker
     openEmojiPicker(e) {
       this.isEmojiPickerOpen = e;
       // scroll after 300ms

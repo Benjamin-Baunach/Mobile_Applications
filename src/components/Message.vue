@@ -7,7 +7,7 @@
             <p class="text-sm font-normal text-gray-900 dark:text-white" v-html="formatMessage(message.text)" />
             <Dialog>
                <DialogTrigger as-child>
-                  <img class="w-full h-auto cursor-pointer rounded-lg mt-2.5" v-if="message.photoid" :src="photo" />
+                  <img class="w-full cursor-pointer rounded-lg mt-2.5 h-52" v-if="message.photoid" :src="photo" />
                </DialogTrigger>
                <DialogContent class="w-screen bg-transparent border-none shadow-none h-[50vh] text-white py-0 px-2">
                   <DialogHeader />
@@ -25,6 +25,18 @@
       <div class="flex w-full gap-2.5 mt-3 ml-auto">
          <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-3 border-primary-300 bg-primary-200 rounded-e-2xl rounded-s-2xl rounded-ee-lg dark:bg-primary-700 ml-auto">
             <p class="text-sm font-normal text-neutral-950 dark:text-white" v-html="formatMessage(message.text)" />
+            <Dialog>
+               <DialogTrigger as-child>
+                  <img class="w-full cursor-pointer rounded-lg mt-2.5 h-52" v-if="message.photoid" :src="photo" />
+               </DialogTrigger>
+               <DialogContent class="w-screen bg-transparent border-none shadow-none h-[50vh] text-white py-0 px-2">
+                  <DialogHeader />
+                  <div>
+                     <img class="w-full h-auto cursor-pointer rounded-lg mt-2.5" v-if="message.photoid" :src="photo" />
+                     <p class="text-sm font-normal text-white dark:text-white mt-3" v-html="message.text" />
+                  </div>
+               </DialogContent>
+            </Dialog>
          </div>
       </div>
       <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 ml-auto">{{ formattedDate(message.time) }}</p>

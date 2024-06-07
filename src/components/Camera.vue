@@ -116,7 +116,7 @@ export default {
         },
         sendMessage() {
             const token = JSON.parse(localStorage.getItem('token'));
-            api.sendPhotoMessage({ message: this.message, token: token, chatId: this.$route.params.id, photo: this.photo.substring(22) });
+            api.sendPhotoMessage({ message: this.message, token: token.token, chatId: this.$route.params.id, photo: this.photo.substring(22) });
             this.photo = undefined;
             this.$emit('message-send');
         },

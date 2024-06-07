@@ -23,6 +23,35 @@
         </Button>
       </template>
     </ListItem>
+    <ListItem linkTo="">
+      <template #icon>
+        <ALargeSmall class="w-6 h-6 text-neutral-400" />
+      </template>
+      <template #content>
+        <div class="flex flex-col flex-1">
+          <div class="flex flex-col gap-y-1 justify-between items-start w-full">
+              <p class="text-base text-neutral-950 dark:text-neutral-50">Font Size</p>
+              <p class="text-sm text-neutral-400 dark:text-neutral-500">Change the font size of the app</p>
+          </div>
+          <Select v-model="selectedFontSize">
+            <SelectTrigger class="w-full mt-3">
+              <SelectValue placeholder="Select Font Size" />
+            </SelectTrigger>
+            <SelectContent class=" bg-white">
+              <SelectItem value="small">
+                Small
+              </SelectItem>
+              <SelectItem value="standard">
+                Standard
+              </SelectItem>
+              <SelectItem value="large">
+                Large
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </template>
+    </ListItem>
     <LogoutDrawer>
       <template #trigger>
         <ListItem linkTo="" title="Logout" subtitle="Logout from your account">
@@ -37,11 +66,18 @@
 </template>
 
 <script>
-import { ChevronLeft, ChevronRight, Palette, LogOut } from 'lucide-vue-next';
+import { ChevronLeft, ChevronRight, Palette, LogOut, ALargeSmall } from 'lucide-vue-next';
 import Navbar from '@/components/Navbar.vue';
 import { Button } from '@/components/ui/button'
 import ListItem from '@/components/ListItem.vue';
 import LogoutDrawer from '@/components/LogoutDrawer.vue';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 export default {
   name: 'Settings',
@@ -49,12 +85,61 @@ export default {
     Navbar,
     Button,
     ListItem,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
     LogOut,
     Palette,
     ChevronLeft,
     ChevronRight,
+    ALargeSmall,
     LogoutDrawer,
   },
+  data() {
+    return {
+      selectedFontSize: 'standard',
+    }
+  },
+  methods: {
+    setFontSize(size) {
+      switch (size) {
+        case 'small':
+          document.documentElement.style.setProperty('--fs-setting', '-0.2rem');
+          break;
+        case 'standard':
+          document.documentElement.style.setProperty('--fs-setting', '0rem');
+          break;
+        case 'large':
+          document.documentElement.style.setProperty('--fs-setting', '0.25rem');
+          break;
+        default:
+          document.documentElement.style.setProperty('--fs-setting', '0rem');
+      }
+    },
+  },
+  watch: {
+    selectedFontSize() {
+      this.setFontSize(this.selectedFontSize);
+    }
+  },
+  mounted() {
+    const fontSize = document.documentElement.style.getPropertyValue('--fs-setting');
+    switch (fontSize) {
+      case '-0.2rem':
+        this.selectedFontSize = 'small';
+        break;
+      case '0rem':
+        this.selectedFontSize = 'standard';
+        break;
+      case '0.25rem':
+        this.selectedFontSize = 'large';
+        break;
+      default:
+        this.selectedFontSize = 'standard';
+    }
+  }
 }
 
 </script>

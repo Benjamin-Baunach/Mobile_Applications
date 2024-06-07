@@ -54,6 +54,18 @@ module.exports = {
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
       },
+      fontSize: {
+        "xs": "calc(0.75rem + var(--fs-setting))",
+        "sm": "calc(.875rem + var(--fs-setting))",
+        "base": "calc(1rem + var(--fs-setting))",
+        "lg": "calc(1.125rem + var(--fs-setting))",
+        "xl": "calc(1.25rem + var(--fs-setting))",
+        "2xl": "calc(1.5rem + var(--fs-setting))",
+        "3xl": "calc(1.875rem + var(--fs-setting))",
+        "4xl": "calc(2.25rem + var(--fs-setting))",
+        "5xl": "calc(3rem + var(--fs-setting))",
+        "6xl": "calc(4rem + var(--fs-setting))",
+      },
     },
   },
   plugins: [animate],
