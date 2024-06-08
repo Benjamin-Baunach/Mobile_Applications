@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full justify-between flex-row items-center flex gap-1.5 mb-2 z-10 relative">
+    <div class="w-full justify-between flex-row items-center flex gap-1.5 z-10 relative">
     <Transition name="fade">
         <!-- show offline message -->
         <div

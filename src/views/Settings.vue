@@ -37,7 +37,7 @@
             <SelectTrigger class="w-full mt-3">
               <SelectValue placeholder="Select Font Size" />
             </SelectTrigger>
-            <SelectContent class=" bg-white">
+            <SelectContent class="dark:bg-background bg-white dark:text-neutral-50 !dark:border-neutral-400">
               <SelectItem value="small">
                 Small
               </SelectItem>

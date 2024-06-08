@@ -38,7 +38,7 @@ export default {
     });
   },
 
-  async login(userid, password) {
+  async login({userid, password}) {
     return await this.postData({
       request: "login",
       userid: userid,
