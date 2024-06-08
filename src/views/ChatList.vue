@@ -15,10 +15,9 @@
         </RouterLink>
       </template>
     </Navbar>
-
     <div class="h-fill flex flex-col items-center justify-start pt-3">
       <div class="max-w-md flex flex-col container px-4 mx-auto gap-y-3">
-        <ChatListItem name="Birthday Party" :id="lastMessage.chatid" :lastActivity="lastMessage.time" :lastChatMessage="lastMessage.text" />
+        <ChatListItem name="Birthday Party" :id="lastMessage.chatid" :message="lastMessage" />
         
         <!-- <div class="fixed bottom-5 right-5">
           <button class="flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-600 text-white">
@@ -35,7 +34,7 @@
 import api from '@/api/index.js';
 import Navbar from '@/components/Navbar.vue';
 import ChatListItem from '@/components/ChatListItem.vue'
-import { MessageCircleMore, UserRound } from 'lucide-vue-next'
+import { UserRound } from 'lucide-vue-next'
 </script>
 
 <script>
@@ -54,6 +53,7 @@ export default {
     async getMessages() {
       const token = JSON.parse(localStorage.getItem('token'));
       let result = await api.getmessages({token: token.token});
+      if (result.messages.length === 0) return 'No messages';
       return result.messages[result.messages.length - 1] ?? 'No messages';
     },
   }

@@ -17,9 +17,6 @@ async function logout() {
   const stayLoggedToken = localStorage.getItem('tokenStayLogged');
   const token = JSON.parse(localStorage.getItem('token')).token;
 
-  console.log(token, " ", stayLoggedToken);
-
-
   if (token || stayLoggedToken) {
     try {
       const response = await api.logout(token);

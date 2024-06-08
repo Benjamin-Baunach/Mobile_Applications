@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="`/chat/${id}`" class="flex flex-row gap-4" v-if="lastActivity!==undefined && lastChatMessage!==undefined">
+    <router-link :to="`/chat/${id}`" class="flex flex-row gap-4" v-if="message!==undefined || message.length!==0">
         <Avatar class="h-14 w-14 rounded-full flex items-center justify-center">
             <AvatarImage src="https://images.unsplash.com/photo-1583875762487-5f8f7c718d14?q=80&w=512&h=512&fit=crop" alt="@radix-vue" />
             <AvatarFallback class="h-14 w-14 rounded-full flex items-center justify-center bg-neutral-200 dark:bg-neutral-800" />
@@ -7,11 +7,17 @@
         <div class="flex flex-col flex-1">
             <div class="flex justify-between items-start w-full">
                 <p class="text-xl text-neutral-950 dark:text-neutral-50">{{name}}</p>
-                <p class="text-base text-neutral-950 dark:text-neutral-500">{{ formattedDate(lastActivity) }}</p>
+                <p class="text-base text-neutral-950 dark:text-neutral-500">{{ formattedDate(message?.time) }}</p>
             </div>
             <div class="flex gap-x-2 text-base items-center text-neutral-500">
                 <CheckCheck class="stroke-blue-400" size="16" />
-                <p class="truncate max-w-xs" v-html="lastChatMessage" />
+                <span v-if="message.sender === 'me'">You: </span>
+                <span v-else>{{message.usernickname}}: </span>
+                <div v-if="message?.photoid" class="flex items-center gap-x-1.5">
+                    <Camera class="w-4 h-4 text-black" />
+                    <p>Photo</p>
+                </div>
+                <p v-else class="truncate max-w-xs" v-html="lastChatMessage" />
             </div>
         </div>
     </router-link>
@@ -27,6 +33,7 @@
 
 <script>
     import {
+        Camera,
         Check,
         CheckCheck,
     } from 'lucide-vue-next'
@@ -39,6 +46,7 @@
         components: {
             Check,
             CheckCheck,
+            Camera,
             Avatar,
             AvatarFallback,
             AvatarImage,
@@ -54,18 +62,15 @@
                 type: String,
                 required: true,
             },
-            lastActivity: {
-                type: undefined,
-                required: true,
-            },
-            lastChatMessage: {
+            message: {
                 type: undefined,
                 required: true,
             },
         },
         methods: {
             formattedDate(time) {
-                const dateParts = time.split('_');
+                if (!time) return '';
+                const dateParts = time?.split('_');
                 const date = new Date(dateParts[0].replace(/-/g, '/') + ' ' + dateParts[1].replace(/-/g, ':'));
                 const today = new Date();
                 const yesterday = new Date(today);
