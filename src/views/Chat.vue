@@ -28,7 +28,7 @@
       <div class="max-w-md flex flex-col container px-4 mx-auto gap-y-3 mt-3">
         <!-- Add day for each  -->
         <div v-for="(mdg, i) in messages" :key="mdg.id" class="text-xs text-neutral-800 dark:text-gray-400 last:mb-3 relative">
-          <div class="text-center backdrop-blur-sm border border-gray-50/50 sticky top-3 bg-gray-50 dark:bg-neutral-800 w-max mx-auto px-2 py-1.5 rounded-lg bg-opacity-80 shadow-sm last:mb-3">
+          <div class="text-center backdrop-blur-sm border border-gray-50/25 sticky z-50 top-3 bg-gray-50 dark:bg-neutral-800 w-max mx-auto px-2 py-1.5 rounded-xl bg-opacity-80 shadow-sm last:mb-3">
             <p class="text-xs text-neutral-800 dark:text-white">{{ i }}</p>
           </div>
           <Message v-for="(message, index) in mdg" :key="index" :message="message" :is-last="i === mdg.length-1" />

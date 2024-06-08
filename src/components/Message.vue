@@ -20,10 +20,10 @@
                   </div>
                </DialogContent>
             </Dialog>
-            <a class="flex gap-x-3 items-center bg-white/20 p-2 rounded-md mt-2" target="_blank" :href="url?.link" v-if="url">
+            <a class="flex gap-x-3 items-center bg-white/40 dark:bg-white/20 p-2 rounded-md mt-2" target="_blank" :href="url?.link" v-if="url">
                <img class="w-4 h-4" :src="url?.favicon" />
-               <p class="text-sm flex-1 truncate font-normal text-neutral-950 dark:text-white">{{ url?.link }}</p>
-               <ExternalLink class="w-4 h-4 text-neutral-950 dark:text-white" />
+               <p class="text-sm flex-1 truncate font-normal text-neutral-950 dark:text-neutral-50">{{ url?.link }}</p>
+               <ExternalLink class="w-4 h-4 text-neutral-950 dark:text-neutral-50" />
             </a>
          </div>
       </div>
@@ -48,10 +48,10 @@
                   </div>
                </DialogContent>
             </Dialog>
-            <a class="flex gap-x-3 items-center bg-white/40 p-2 rounded-md mt-2" target="_blank" :href="url?.link" v-if="url">
+            <a class="flex gap-x-3 items-center bg-white/40 dark:bg-white/20 p-2 rounded-md mt-2" target="_blank" :href="url?.link" v-if="url">
                <img class="w-4 h-4" :src="url?.favicon" />
-               <p class="text-sm flex-1 truncate font-normal text-neutral-950 dark:text-white">{{ url?.link }}</p>
-               <ExternalLink class="w-4 h-4 text-neutral-950 dark:text-white" />
+               <p class="text-sm flex-1 truncate font-normal text-neutral-950 dark:text-neutral-50">{{ url?.link }}</p>
+               <ExternalLink class="w-4 h-4 text-neutral-950 dark:text-neutral-50" />
             </a>
          </div>
       </div>
