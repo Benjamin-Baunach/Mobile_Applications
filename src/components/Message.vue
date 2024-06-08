@@ -8,20 +8,20 @@
             <Dialog v-if="message.photoid">
                <DialogTrigger as-child>
                   <div class="relative">
-                     <img class="w-full cursor-pointer rounded-lg mt-2.5 h-52 z-10 relative" :src="photo" />
+                     <img class="w-full cursor-pointer rounded-lg mt-2.5 h-52 z-10 relative" loading="lazy" :src="photo" />
                      <Skeleton class="w-full cursor-pointer rounded-lg absolute top-2.5 h-52 z-0" />
                   </div>
                </DialogTrigger>
                <DialogContent class="w-screen bg-transparent border-none shadow-none h-[50vh] text-white py-0 px-2">
                   <DialogHeader />
                   <div>
-                     <img class="w-full h-auto cursor-pointer rounded-lg mt-2.5" v-if="message.photoid" :src="photo" />
+                     <img class="w-full h-auto cursor-pointer rounded-lg mt-2.5" v-if="message.photoid" loading="lazy" :src="photo" />
                      <p class="text-sm font-normal text-white dark:text-white mt-3" v-html="message.text" />
                   </div>
                </DialogContent>
             </Dialog>
             <a class="flex gap-x-3 items-center bg-white/40 dark:bg-white/20 p-2 rounded-md mt-2" target="_blank" :href="url?.link" v-if="url">
-               <img class="w-4 h-4" :src="url?.favicon" />
+               <img class="w-4 h-4" loading="lazy" :src="url?.favicon" />
                <p class="text-sm flex-1 truncate font-normal text-neutral-950 dark:text-neutral-50">{{ url?.link }}</p>
                <ExternalLink class="w-4 h-4 text-neutral-950 dark:text-neutral-50" />
             </a>
@@ -36,20 +36,20 @@
             <Dialog v-if="message.photoid">
                <DialogTrigger as-child>
                   <div class="relative">
-                     <img class="w-full cursor-pointer rounded-lg mt-2.5 h-52 z-10 relative" :src="photo" />
+                     <img class="w-full cursor-pointer rounded-lg mt-2.5 h-52 z-10 relative" loading="lazy" :src="photo" />
                      <Skeleton class="w-full cursor-pointer rounded-lg absolute top-2.5 h-52 z-0" />
                   </div>
                </DialogTrigger>
                <DialogContent class="w-screen bg-transparent border-none shadow-none h-[50vh] text-white py-0 px-2">
                   <DialogHeader />
                   <div>
-                     <img class="w-full h-auto cursor-pointer rounded-lg mt-2.5" v-if="message.photoid" :src="photo" />
+                     <img class="w-full h-auto cursor-pointer rounded-lg mt-2.5" loading="lazy" v-if="message.photoid" :src="photo" />
                      <p class="text-sm font-normal text-white dark:text-white mt-3" v-html="message.text" />
                   </div>
                </DialogContent>
             </Dialog>
             <a class="flex gap-x-3 items-center bg-white/40 dark:bg-white/20 p-2 rounded-md mt-2" target="_blank" :href="url?.link" v-if="url">
-               <img class="w-4 h-4" :src="url?.favicon" />
+               <img class="w-4 h-4" loading="lazy" :src="url?.favicon" />
                <p class="text-sm flex-1 truncate font-normal text-neutral-950 dark:text-neutral-50">{{ url?.link }}</p>
                <ExternalLink class="w-4 h-4 text-neutral-950 dark:text-neutral-50" />
             </a>
