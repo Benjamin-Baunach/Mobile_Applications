@@ -17,7 +17,7 @@
                     <Camera class="w-4 h-4 text-neutral-700 dark:text-neutral-400" />
                     <p>Photo</p>
                 </div>
-                <p v-else class="truncate max-w-xs" v-html="lastChatMessage" />
+                <p v-else class="truncate max-w-xs -ml-1" v-html="message.text" />
             </div>
         </div>
     </router-link>
