@@ -122,8 +122,9 @@ export default {
       // if the message include a link, replace it with an anchor tag
       if (!message) return '';
       const urlRegex = /(https?:\/\/[^\s]+)/g;
-      if (!urlRegex.test(message)) return message;
-      const url = message.match(urlRegex);
+      const urlOnly = /(www\.[^\s]+)/g;
+      if (!urlRegex.test(message) || !urlOnly.test(message)) return message;
+      const url = message.match(urlRegex) || message.match(urlOnly);
       const domain = new URL(url[0]).hostname;
       const newUrl = {
          favicon: `https://www.google.com/s2/favicons?domain=${domain}`,

@@ -75,7 +75,11 @@ export default {
   },
 
   async getmessages({token}) {
-      const response = await fetch(`${this.baseURL}?request=getmessages&token=${token}&chatid=1`);
+      // fetch without cache
+      const response = await fetch(`${this.baseURL}?request=getmessages&token=${token}&chatid=1`, {
+        cache: "no-store",
+        origin: "same-origin",
+      });
       return await response.json();
   },
 

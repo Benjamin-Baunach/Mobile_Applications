@@ -11,7 +11,7 @@
             </div>
             <div class="flex gap-x-2 text-base items-center text-neutral-500">
                 <CheckCheck class="stroke-blue-400" size="16" />
-                <span v-if="message.sender === 'me'">You: </span>
+                <span v-if="isCurrentUser">You: </span>
                 <span v-else>{{message.usernickname}}: </span>
                 <div v-if="message?.photoid" class="flex items-center gap-x-1.5">
                     <Camera class="w-4 h-4 text-neutral-700 dark:text-neutral-400" />
@@ -98,6 +98,11 @@
                 const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
                 return date.toLocaleDateString(navigator.language, options);
             }
+        },
+        computed: {
+            isCurrentUser() {
+                return this.message.userhash === JSON.parse(localStorage.getItem('token')).hash;
+            },
         },
     }
 
