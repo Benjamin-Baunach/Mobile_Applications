@@ -157,7 +157,7 @@ const onSubmit = handleSubmit(async (values) => {
     }).then((res) => {
       success.value = true;
       setTimeout(() => {
-        router.push({ path: '/login' })
+        router.push({ path: '/' })
       }, 1800);
     });
   } catch (error) {

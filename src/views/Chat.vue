@@ -80,7 +80,7 @@ export default {
       const token = JSON.parse(localStorage.getItem('token'));
       const result = await api.getmessages({ token: token.token });
       this.messages = this.groupMessagesByDate(result.messages) ?? 'No messages';
-      setTimeout(this.getMessages, 5000); // Poll every 5 seconds
+      setTimeout(this.getMessages, 2000); // Poll every 5 seconds
     },
     scrollToBottom() {
       this.$refs.scrollContainer.scrollTop = this.$refs.scrollContainer.scrollHeight;
