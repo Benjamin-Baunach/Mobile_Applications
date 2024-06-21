@@ -2,14 +2,16 @@
 
 
 ## Start with cloning this repo on your local machine:
+```bash
 $ git clone https://github.com/Benjamin-Baunach/Mobile_Applications.git
 $ cd PROJECT
+```
 
 ## 💿 Installation
 ### To install and set up the library, run:
 ```bash
 $ npm install 
-& npm run dev
+$ npm run dev
 ```
 ## 🍻 Try Website 
  - https://mobile-applications.vercel.app/
