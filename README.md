@@ -1,7 +1,27 @@
-# Vue 3 + Vite
+# Vue 3 + Vite + Tailwind CSS + Shadcn UI + Javascript
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-## Recommended IDE Setup
+## Start with cloning this repo on your local machine:
+$ git clone https://github.com/Benjamin-Baunach/Mobile_Applications.git
+$ cd PROJECT
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## 💿 Installation
+### To install and set up the library, run:
+```bash
+$ npm install 
+& npm run dev
+```
+## 🍻 Try Website 
+ - https://mobile-applications.vercel.app/
+
+## 📰 Description
+dist.zip can be found under the tag v.1.0.0
+
+
+
+
+
+
+
+
+
